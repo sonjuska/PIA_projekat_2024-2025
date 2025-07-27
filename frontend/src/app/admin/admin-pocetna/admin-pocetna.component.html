@@ -1,0 +1,18 @@
+<nav class="navbar">
+  <div class="navbar-brand">Administracija</div>
+  <div class="navbar-buttons">
+    <button class="btn-nav" routerLink="korisnici">Korisnici</button>
+    <button class="btn-nav" routerLink="zahtevi">Zahtevi za registraciju</button>
+    <div class="user-info">
+      <img 
+        [src]="'http://localhost:8080/' + admin.profilna_slika_path" 
+        alt="Profilna slika" 
+      />
+      <span>{{ admin.korisnicko_ime }}</span>
+    </div>
+    <button class="btn-nav" (click)="odjava()">Odjava</button>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+

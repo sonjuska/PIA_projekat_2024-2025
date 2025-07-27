@@ -1,0 +1,61 @@
+# === GLOBAL ===
+
+# OS fajlovi
+.DS_Store
+Thumbs.db
+
+# IDE fajlovi
+.vscode/
+.idea/
+*.iml
+
+# Log fajlovi
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === ANGULAR FRONTEND ===
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.eslintcache
+frontend/.env
+frontend/.env.*
+
+# Angular build artifacts
+frontend/out-tsc/
+frontend/coverage/
+
+# === SPRING BOOT BACKEND ===
+backend/target/
+backend/.mvn/
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/.env
+backend/.env.*
+
+# Maven fajlovi
+**/pom.xml.tag
+**/pom.xml.releaseBackup
+**/pom.xml.versionsBackup
+**/release.properties
+
+# Eclipse specific
+*.launch
+
+# JetBrains
+*.ipr
+*.iws
+*.idea/
+
+# Backup fajlovi
+*.bak
+*.tmp
+*.swp
+*.swo
+*~
+
+# === GIT ===
+!.gitignore

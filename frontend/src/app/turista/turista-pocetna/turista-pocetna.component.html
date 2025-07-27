@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="navbar-brand">Turista</div>
+  <div class="navbar-buttons">
+    <button class="btn-nav" routerLink="profil">Profil</button>
+    <button class="btn-nav" routerLink="vikendice">Vikendice</button>
+    <button class="btn-nav" routerLink="rezervacije">Rezervacije</button>
+    <div class="user-info">
+      <img 
+        [src]="'http://localhost:8080/' + turista.profilna_slika_path" 
+        alt="Profilna slika" 
+      />
+      <span>{{ turista.korisnicko_ime }}</span>
+    </div>
+    <button class="btn-nav" (click)="odjava()">Odjava</button>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+

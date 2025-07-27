@@ -1,0 +1,22 @@
+.kartica-wrapper {
+  display:inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.kartica-wrapper input {
+  height: 20px; 
+  line-height: 20px;
+  padding: 5px 10px;
+}
+
+.kartica-wrapper img {
+  object-fit: contain;
+  margin-top: 0;  
+  padding-bottom: 15px;
+  width: auto;
+}
+button:disabled{
+    background-color: rgb(149, 122, 103);
+}

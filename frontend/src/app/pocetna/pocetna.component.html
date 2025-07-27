@@ -1,0 +1,60 @@
+<nav class="navbar">
+  <div class="navbar-brand">Planinska Vikendica</div>
+  <div class="navbar-buttons">
+    <button class="btn-nav" (click)="registracija()">Registracija</button>
+    <button class="btn-nav" (click)="login()">Prijava</button>
+  </div>
+</nav>
+
+<div class="opste-info">
+  <h2>Opšte informacije</h2>
+  <div class="info-grid">
+    <div class="info-item">Ukupan broj vikendica: <strong>{{ ukupnoVikendica }}</strong></div>
+    <div class="info-item">Ukupan broj vlasnika: <strong>{{ ukupnoVlasnika }}</strong></div>
+    <div class="info-item">Ukupan broj turista: <strong>{{ ukupnoTurista }}</strong></div>
+    <div class="info-item">Rezervacije u 24h: <strong>{{ rezervacije24h }}</strong></div>
+    <div class="info-item">Rezervacije u 7d: <strong>{{ rezervacije7dana }}</strong></div>
+    <div class="info-item">Rezervacije u 30d: <strong>{{ rezervacije30dana }}</strong></div>
+  </div>
+</div>
+
+<div class="pretraga-section">
+  <h2>Pretraga vikendica</h2>
+  <form #searchForm="ngForm" (ngSubmit)="pretrazi()" class="search-form">
+    <div class="form-group">
+      <label for="naziv">Naziv:</label>
+      <input type="text" id="naziv" name="naziv" [(ngModel)]="pretragaNaziv" />
+    </div>
+
+    <div class="form-group">
+      <label for="mesto">Mesto:</label>
+      <input type="text" id="mesto" name="mesto" [(ngModel)]="pretragaMesto" />
+    </div>
+
+    <button type="submit" class="btn">Pretraži</button>
+  </form>
+</div>
+
+<div class="lista-vikendica">
+  <h2>Lista vikendica</h2>
+  <table class="vikendica-table">
+    <thead>
+      <tr>
+        <th (click)="sortiraj('naziv')">
+          Naziv
+          <span *ngIf="sortKolona === 'naziv'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
+        </th>
+        <th (click)="sortiraj('mesto')">
+          Mesto
+          <span *ngIf="sortKolona === 'mesto'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vik of vikendice">
+        <td>{{ vik.naziv }}</td>
+        <td>{{ vik.mesto }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
