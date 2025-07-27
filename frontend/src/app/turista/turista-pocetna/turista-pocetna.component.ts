@@ -10,16 +10,25 @@ import { KorisnikLoginResponse } from '../../responses/KorisnikLoginResponse';
   styleUrl: './turista-pocetna.component.css'
 })
 export class TuristaPocetnaComponent implements OnInit{
-  ngOnInit(): void {
+  timestamp: number = Date.now();
 
-  let t = localStorage.getItem('korisnik')
-    if(t){
-      this.turista = JSON.parse(t);
+  ngOnInit(): void {
+    let t = localStorage.getItem('korisnik')
+      if(t){
+        this.turista = JSON.parse(t);
     }
   }
 
   turista: KorisnikLoginResponse = new KorisnikLoginResponse()
   ruter = inject(Router)
+
+  osveziProfilnuSliku() {
+    const t = localStorage.getItem('korisnik');
+    if (t) {
+      this.turista = JSON.parse(t);
+      this.timestamp = Date.now(); //primorava sliku da se ucita ponovo
+    }
+  }
 
   odjava(){
     localStorage.removeItem('korisnik');

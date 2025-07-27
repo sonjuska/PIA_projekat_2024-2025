@@ -27,19 +27,19 @@ public class LoginRepo {
 
                 //provera hesirane lozinke
                 if (BCrypt.checkpw(p.getLozinka_hash(), hash)) {
-                    KorisnikLoginResponse korisnik = new KorisnikLoginResponse();
-                    korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
-                    korisnik.setIme(rs.getString("ime"));
-                    korisnik.setPrezime(rs.getString("prezime"));
-                    korisnik.setPol(rs.getString("pol"));
-                    korisnik.setAdresa(rs.getString("adresa"));
-                    korisnik.setTelefon(rs.getString("telefon"));
-                    korisnik.setEmail(rs.getString("email"));
-                    korisnik.setProfilna_slika_path(rs.getString("profilna_slika_path"));
-                    korisnik.setBroj_kartice(rs.getString("broj_kartice"));
-                    korisnik.setUloga(rs.getString("uloga"));
-                    korisnik.setAktivan(rs.getBoolean("aktivan"));
-                    return korisnik;
+                return new KorisnikLoginResponse(
+                    rs.getString("korisnicko_ime"),
+                    rs.getString("ime"),
+                    rs.getString("prezime"),
+                    rs.getString("pol"),
+                    rs.getString("adresa"),
+                    rs.getString("telefon"),
+                    rs.getString("email"),
+                    rs.getString("profilna_slika_path"),
+                    rs.getString("broj_kartice"),
+                    rs.getString("uloga"),
+                    rs.getBoolean("aktivan")
+                    );
                 }
             }
 
@@ -65,19 +65,19 @@ public class LoginRepo {
                 System.out.println(hash);
                 //provera hesirane lozinke
                 if (BCrypt.checkpw(p.getLozinka_hash(), hash)) {
-                    KorisnikLoginResponse korisnik = new KorisnikLoginResponse();
-                    korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
-                    korisnik.setIme(rs.getString("ime"));
-                    korisnik.setPrezime(rs.getString("prezime"));
-                    korisnik.setPol(rs.getString("pol"));
-                    korisnik.setAdresa(rs.getString("adresa"));
-                    korisnik.setTelefon(rs.getString("telefon"));
-                    korisnik.setEmail(rs.getString("email"));
-                    korisnik.setProfilna_slika_path(rs.getString("profilna_slika_path"));
-                    korisnik.setBroj_kartice(rs.getString("broj_kartice"));
-                    korisnik.setUloga(rs.getString("uloga"));
-                    korisnik.setAktivan(rs.getBoolean("aktivan"));
-                    return korisnik;
+                return new KorisnikLoginResponse(
+                    rs.getString("korisnicko_ime"),
+                    rs.getString("ime"),
+                    rs.getString("prezime"),
+                    rs.getString("pol"),
+                    rs.getString("adresa"),
+                    rs.getString("telefon"),
+                    rs.getString("email"),
+                    rs.getString("profilna_slika_path"),
+                    rs.getString("broj_kartice"),
+                    rs.getString("uloga"),
+                    rs.getBoolean("aktivan")
+                    );
                 }
             }
 

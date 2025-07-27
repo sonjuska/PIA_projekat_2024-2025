@@ -1,7 +1,8 @@
+import { LoginService } from './../../login/login.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { KorisnikLoginResponse } from '../../responses/KorisnikLoginResponse';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TuristaService } from '../turista.service';
@@ -15,19 +16,25 @@ import { TuristaService } from '../turista.service';
 })
 export class ProfilComponent {
 
-  constructor(private turistaServis: TuristaService, private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     const korisnikLS = localStorage.getItem('korisnik');
     if (korisnikLS) {
-      this.korisnik = JSON.parse(korisnikLS);
-      this.slika = `/assets/images/${this.korisnik.profilna_slika_path}`;
+      let k = JSON.parse(korisnikLS);
+      this.turistaServis.dohvatiKorisnika(k.korisnicko_ime).subscribe(korisnik=>{
+        if(korisnik){
+          this.korisnik = korisnik;
+        }
+      })
     }
   }
-  
+
   korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
-  slika: string = '';
   novaSlika: File | null = null;
+
+  turistaServis = inject(TuristaService)
+  ruter = inject(Router)
 
   izaberiSliku(event: any) {
     if (event.target.files && event.target.files.length > 0) {
@@ -39,7 +46,15 @@ export class ProfilComponent {
     this.turistaServis.azurirajKorisnika(this.korisnik, this.novaSlika).subscribe(res => {
       if (res) {
         alert('Uspešno ažurirano!');
-        localStorage.setItem('korisnik', JSON.stringify(this.korisnik));
+        this.turistaServis.dohvatiKorisnika(this.korisnik.korisnicko_ime).subscribe(korisnik=>{
+          if(korisnik){
+            this.korisnik = korisnik
+            localStorage.setItem('korisnik', JSON.stringify(korisnik))
+            this.ruter.navigate(['/turista/profil']);
+
+          }
+        })
+
       } else {
         alert('Greška pri ažuriranju.');
       }

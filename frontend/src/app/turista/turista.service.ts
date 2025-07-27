@@ -1,6 +1,6 @@
+import { KorisnikLoginResponse } from './../responses/KorisnikLoginResponse';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { KorisnikLoginResponse } from '../responses/KorisnikLoginResponse';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,11 @@ export class TuristaService {
 
   constructor(private http: HttpClient) { }
   private url = 'http://localhost:8080/turista'
-  
+
+  dohvatiKorisnika(korisnicko_ime: string): Observable<KorisnikLoginResponse>{
+    return this.http.get<KorisnikLoginResponse>(this.url + '/dohvatiKorisnika', {params: {korisnicko_ime: korisnicko_ime}});
+  }
+
   azurirajKorisnika(korisnik: KorisnikLoginResponse, novaSlika: File | null): Observable<boolean> {
     const formData = new FormData();
 
@@ -28,4 +32,6 @@ export class TuristaService {
 
     return this.http.post<boolean>(this.url + '/azuriraj', formData);
   }
+
+
 }

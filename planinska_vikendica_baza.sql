@@ -30,8 +30,7 @@ CREATE TABLE zahtev_za_registraciju (
     korisnicko_ime VARCHAR(50),
     status VARCHAR(20) DEFAULT 'na_cekanju' CHECK (status IN ('na_cekanju', 'odobren', 'odbijen')),
     komentar_odbijanja TEXT,
-    datum_podnosenja DATETIME DEFAULT NOW(),
-    FOREIGN KEY (korisnicko_ime) REFERENCES korisnik(korisnicko_ime)
+    datum_podnosenja DATETIME DEFAULT NOW()
 );
 
 -- Tabela za vikendice

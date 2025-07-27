@@ -11,6 +11,22 @@ public class KorisnikLoginResponse {
     private String profilna_slika_path;
     private String broj_kartice;
     private String uloga;
+    public KorisnikLoginResponse(String korisnicko_ime, String ime, String prezime, String pol, String adresa,
+            String telefon, String email, String profilna_slika_path, String broj_kartice, String uloga,
+            boolean aktivan) {
+        this.korisnicko_ime = korisnicko_ime;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.pol = pol;
+        this.adresa = adresa;
+        this.telefon = telefon;
+        this.email = email;
+        this.profilna_slika_path = profilna_slika_path;
+        this.broj_kartice = broj_kartice;
+        this.uloga = uloga;
+        this.aktivan = aktivan;
+    }
+
     private boolean aktivan;
 
     public String getKorisnicko_ime() {
