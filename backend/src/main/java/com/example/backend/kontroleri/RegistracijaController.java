@@ -1,6 +1,5 @@
 package com.example.backend.kontroleri;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,8 +24,6 @@ import org.mindrot.jbcrypt.BCrypt;
 @RequestMapping("/registracija")
 public class RegistracijaController {
 
-    // Folder za slike unutar Spring Boot static foldera
-    private static final String RELATIVE_UPLOAD_DIR = "static/";
 
     @Autowired
     private RegistracijaRepo korisnikRepo;
@@ -85,7 +82,8 @@ public class RegistracijaController {
         String slikaPutanja = "default.jpg";
 
         // Apsolutna putanja do static/slike foldera
-        String staticDir = new File("src/main/resources/" + RELATIVE_UPLOAD_DIR).getAbsolutePath();
+        String staticDir = Paths.get(System.getProperty("user.dir"), "backend", "src", "main", "resources", "static").toString();
+
 
         if (slika != null && !slika.isEmpty()) {
             try {
