@@ -12,11 +12,13 @@ import { VikendiceComponent } from './turista/vikendice/vikendice.component';
 import { RezervacijeComponent } from './turista/rezervacije/rezervacije.component';
 import { turistaUlogovanGuard } from './turista/turista-ulogovan.guard';
 import { TuristaPocetnaComponent } from './turista/turista-pocetna/turista-pocetna.component';
+import { PromenaLozinkeComponent } from './promena-lozinke/promena-lozinke.component';
 
 export const routes: Routes = [
     {path: "", component: PocetnaComponent},
     {path: "prijava", component: LoginComponent},
     {path: "registracija", component: RegistracijaComponent},
+    {path: "promeniLozinku", component: PromenaLozinkeComponent},
     { path: "admin/prijava", component: AdminLoginComponent },
     {
         path: "admin",

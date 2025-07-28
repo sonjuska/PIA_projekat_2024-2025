@@ -88,4 +88,8 @@ export class PocetnaComponent {
   registracija(){
     this.ruter.navigate(['registracija'])
   }
+
+  promeniLozinku(){
+    this.ruter.navigate(['promeniLozinku'])
+  }
 }
