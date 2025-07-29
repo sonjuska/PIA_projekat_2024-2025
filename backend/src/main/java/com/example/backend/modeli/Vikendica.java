@@ -12,8 +12,24 @@ public class Vikendica {
     private Double lat;
     private Double lon;
     private LocalDateTime blokirana_do;
+    private double prosecna_ocena;
+
+    public Vikendica(int id, String vlasnik, String naziv, String mesto, String usluge, String telefon, Double lat,
+            Double lon, LocalDateTime blokirana_do, double prosecna_ocena) {
+        this.id = id;
+        this.vlasnik = vlasnik;
+        this.naziv = naziv;
+        this.mesto = mesto;
+        this.usluge = usluge;
+        this.telefon = telefon;
+        this.lat = lat;
+        this.lon = lon;
+        this.blokirana_do = blokirana_do;
+        this.prosecna_ocena = prosecna_ocena;
+    }
 
     public int getId() { return id; }
+
     public void setId(int id) { this.id = id; }
 
     public String getVlasnik() { return vlasnik; }
@@ -39,4 +55,11 @@ public class Vikendica {
 
     public LocalDateTime getBlokirana_do() { return blokirana_do; }
     public void setBlokirana_do(LocalDateTime blokirana_do) { this.blokirana_do = blokirana_do; }
+    
+    public double getProsecna_ocena() {
+        return prosecna_ocena;
+    }
+    public void setProsecna_ocena(double prosecna_ocena) {
+        this.prosecna_ocena = prosecna_ocena;
+    }
 }

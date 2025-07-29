@@ -13,6 +13,7 @@ import { RezervacijeComponent } from './turista/rezervacije/rezervacije.componen
 import { turistaUlogovanGuard } from './turista/turista-ulogovan.guard';
 import { TuristaPocetnaComponent } from './turista/turista-pocetna/turista-pocetna.component';
 import { PromenaLozinkeComponent } from './promena-lozinke/promena-lozinke.component';
+import { VikendicaDetaljiComponent } from './turista/vikendice/vikendica-detalji/vikendica-detalji.component';
 
 export const routes: Routes = [
     {path: "", component: PocetnaComponent},
@@ -36,7 +37,8 @@ export const routes: Routes = [
         children: [
             { path: "profil", component: ProfilComponent },
             { path: "vikendice", component: VikendiceComponent },
-            {path: "rezervacije", component: RezervacijeComponent}
+            { path: "rezervacije", component: RezervacijeComponent},
+            { path: "vikendice/:id", component: VikendicaDetaljiComponent}
 
         ]
     },

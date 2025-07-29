@@ -1,0 +1,64 @@
+.leaflet-popup-content-wrapper.custom-popup {
+  background-color: #fffaf0;
+  border: 1px solid #8d6e63;
+  border-radius: 6px;
+  color: #4e342e;
+  font-weight: 500;
+}
+/*za sliku i popup modal*/
+.slike-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.slike-scroll img {
+  height: 150px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.slike-scroll img:hover {
+  transform: scale(1.05);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: zoom-out;
+}
+
+.modal img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+.galerija .slike {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+  scroll-snap-type: x mandatory;
+}
+
+.galerija .slike img {
+  height: 180px;
+  width: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+

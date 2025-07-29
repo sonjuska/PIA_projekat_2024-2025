@@ -3,8 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Vikendica } from '../models/vikendica';
 import { StatistikaService } from './statistika.service';
-import { VikendicaService } from '../vikendica.service';
 import { Router } from '@angular/router';
+import { VikendicaService } from '../turista/vikendice/vikendica.service';
 
 @Component({
   selector: 'app-pocetna',

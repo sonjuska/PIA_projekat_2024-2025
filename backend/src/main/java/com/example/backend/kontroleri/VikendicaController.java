@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.db.dao.VikendicaRepo;
+import com.example.backend.modeli.Cenovnik;
 import com.example.backend.modeli.Vikendica;
 
 @RestController
@@ -23,11 +24,26 @@ public class VikendicaController {
         return repo.getSveVikendice();
     }
 
+    @GetMapping("/id")
+    public Vikendica getVikendicaPoId(@RequestParam int id){
+        return repo.getVikendicaPoId(id);
+    }
+
     @GetMapping("/pretraga")
     public List<Vikendica> pretraziVikendice(
         @RequestParam(required = false) String naziv,
         @RequestParam(required = false) String mesto
     ) {
         return repo.pretraziVikendice(naziv, mesto);
+    }
+
+    @GetMapping("/id/slike")
+    public List<String> getSlikeVikendice(@RequestParam int vikendica_id){
+        return repo.getSlikeVikendice(vikendica_id);
+    }
+
+    @GetMapping("/id/cenovnik")
+    public List<Cenovnik> getCenovnikVikendice(@RequestParam int vikendica_id){
+        return repo.getCenovnikVikendice(vikendica_id);
     }
 }

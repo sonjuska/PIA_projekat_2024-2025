@@ -7,5 +7,6 @@ export class Vikendica {
   telefon: string = '';
   lat: number = 0;
   lon: number = 0;
-  blokirana_do: string | null = ''; 
+  blokirana_do: string | null = '';
+  prosecna_ocena: number = 0.0 
 }
