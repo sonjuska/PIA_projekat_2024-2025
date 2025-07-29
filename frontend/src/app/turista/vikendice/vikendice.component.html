@@ -37,7 +37,15 @@
       <tr *ngFor="let vik of vikendice">
         <td class="detaljiVikendice" [routerLink]="['/turista/vikendice', vik.id]">{{ vik.naziv }}</td>
         <td>{{ vik.mesto }}</td>
-        <td>{{ vik.prosecna_ocena>0? vik.prosecna_ocena : this.ocena }}</td>
+        <td>
+            <ng-container *ngIf="vik.prosecna_ocena > 0; else nijeOcenjena">
+                <span *ngFor="let zvezda of getZvezdice(vik.prosecna_ocena)">
+                <i [class]="zvezda" style="color: gold;"></i>
+                </span>
+                ({{ vik.prosecna_ocena.toFixed(2) }})
+            </ng-container>
+            <ng-template #nijeOcenjena>Nije ocenjena</ng-template>
+        </td>
       </tr>
     </tbody>
   </table>

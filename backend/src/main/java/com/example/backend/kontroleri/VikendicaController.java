@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.db.dao.VikendicaRepo;
 import com.example.backend.modeli.Cenovnik;
+import com.example.backend.modeli.Komentar;
 import com.example.backend.modeli.Vikendica;
 
 @RestController
@@ -45,5 +46,10 @@ public class VikendicaController {
     @GetMapping("/id/cenovnik")
     public List<Cenovnik> getCenovnikVikendice(@RequestParam int vikendica_id){
         return repo.getCenovnikVikendice(vikendica_id);
+    }
+
+    @GetMapping("/id/komentari")
+        public List<Komentar> getKomentarVikendice(@RequestParam int vikendica_id){
+        return repo.getKomentarVikendice(vikendica_id);
     }
 }

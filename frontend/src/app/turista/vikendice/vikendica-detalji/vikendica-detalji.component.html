@@ -2,76 +2,92 @@
   <h2>{{ vikendica.naziv }} ({{ vikendica.mesto }})</h2><hr>
 
     <div class="galerija">
-    <h3>Galerija slika</h3>
-    <div class="slike-scroll">
-        <img
-        *ngFor="let slika of slike"
-        [src]="'http://localhost:8080/vikendice/' + vikendica.id + '/' + slika"
-        alt="Slika vikendice"
-        (click)="otvoriModal(slika)"
-        />
-    </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal" *ngIf="prikazanaSlika" (click)="zatvoriModal()">
-        <img [src]="'http://localhost:8080/vikendice/' + vikendica.id + '/' + prikazanaSlika" />
-        <span class="strelica desno" (click)="prikaziSledecuSliku()">&#10095;</span>
+        <h3>Galerija slika</h3>
+        <div class="slike-scroll" *ngIf="slike.length>0; else nemaSlika">
+            <img
+            *ngFor="let slika of slike"
+            [src]="'http://localhost:8080/vikendice/' + vikendica.id + '/' + slika"
+            alt="Slika vikendice"
+            (click)="otvoriModal(slika)"
+            />
+        </div>
+        <ng-template #nemaSlika>
+            <p>Još uvek nema slika.</p>
+        </ng-template>
     </div>
 
-    <div class="info-grid">
-    <!-- Usluge -->
-    <div class="usluge">
-        <h3>Usluge</h3>
-        <ul>
-        <li *ngFor="let usluga of usluge">{{ usluga }}</li>
-        </ul>
+        <!-- Modal -->
+        <div class="modal" *ngIf="prikazanaSlika" (click)="zatvoriModal()">
+            <img [src]="'http://localhost:8080/vikendice/' + vikendica.id + '/' + prikazanaSlika" />
+            <span class="strelica desno" (click)="prikaziSledecuSliku()">&#10095;</span>
+        </div>
+
+        <div class="info-grid">
+        <!-- Usluge -->
+        <div class="usluge">
+            <h3>Usluge</h3>
+            <ul>
+            <li *ngFor="let usluga of usluge">{{ usluga }}</li>
+            </ul>
+        </div>
+
+        <!-- Cenovnik -->
+        <div class="cenovnik">
+            <h3>Cenovnik noćenja</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sezona</th>
+                        <th>Cena po noćenju</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cena of cenovnik">
+                        <td>{{ cena.sezona }}</td>
+                        <td>{{ cena.cena | number:'1.2-2' }} RSD</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Kontakt i ocena -->
+        <div class="kontakt">
+            <h3>Kontakt telefon</h3>
+            <p>{{ vikendica.telefon }}</p>
+            <h3>Prosečna ocena</h3>
+            <p *ngIf="vikendica.prosecna_ocena > 0">
+                <span *ngFor="let zvezda of getZvezdice()">
+                    <i [class]="zvezda" style="color: gold;"></i>
+                </span>
+                ({{ vikendica.prosecna_ocena.toFixed(2) }})
+            </p>
+            <p *ngIf="vikendica.prosecna_ocena <= 0">Nije ocenjena.</p>
+        </div>
     </div>
 
-    <!-- Cenovnik -->
-    <div class="cenovnik">
-        <h3>Cenovnik noćenja</h3>
-        <table>
-        <thead>
-            <tr>
-            <th>Sezona</th>
-            <th>Cena po noćenju</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let cena of cenovnik">
-            <td>{{ cena.sezona }}</td>
-            <td>{{ cena.cena | currency:'RSD' }}</td>
-            </tr>
-        </tbody>
-        </table>
-    </div>
 
-    <!-- Kontakt -->
-    <div class="kontakt">
-        <h3>Kontakt telefon</h3>
-        <p>{{ vikendica.telefon }}</p>
-        <h3>Prosečna ocena</h3>
-        <p>{{ vikendica.prosecna_ocena > 0 ? vikendica.prosecna_ocena : 'Nije ocenjena.'}}</p>
-    </div>
-
-    </div>
-
-
-  <!-- Komentari 
-  <div class="komentari">
+    <!-- Komentari -->
+    <div class="komentari">
     <h3>Komentari korisnika</h3>
     <div *ngIf="komentari.length > 0; else bezKomentara">
-      <div *ngFor="let komentar of komentari" class="komentar">
+        <div *ngFor="let komentar of prikazaniKomentari" class="komentar">
         <p><strong>Ocena:</strong> {{ komentar.ocena }}</p>
         <p><strong>Komentar:</strong> {{ komentar.tekst }}</p>
         <p class="datum">{{ komentar.datum | date:'dd.MM.yyyy.' }}</p>
-      </div>
+        </div>
+
+        <!-- Navigacija za stranice -->
+        <div class="paginacija">
+            <button (click)="promeniStranicu(trenutnaStranica - 1)" [disabled]="trenutnaStranica === 1">prethodna</button>
+            <span>{{ trenutnaStranica }} / {{ ukupnoStranica() }}</span>
+            <button (click)="promeniStranicu(trenutnaStranica + 1)" [disabled]="trenutnaStranica === ukupnoStranica()">sledeća</button>
+        </div>
     </div>
     <ng-template #bezKomentara>
-      <p>Još uvek nema komentara.</p>
+        <p>Još uvek nema komentara.</p>
     </ng-template>
-  </div>-->
+    </div>
+
 
   <!-- Mapa -->
   <div class="mapa">

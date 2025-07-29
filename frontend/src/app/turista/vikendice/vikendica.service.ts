@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Vikendica } from '../../models/vikendica';
 import { Slika } from '../../models/slika';
 import { Cenovnik } from '../../models/cenovnik';
+import { Komentar } from '../../models/komentar';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,7 @@ export class VikendicaService {
   getCenovnikVikendice(vikendica_id: number): Observable<Cenovnik[]>{
     return this.http.get<Cenovnik[]>(`${this.url}/id/cenovnik`, {params: {vikendica_id: vikendica_id}})
   }
-
+  getKomentareVikendice(vikendica_id: number): Observable<Komentar[]>{
+    return this.http.get<Komentar[]>(`${this.url}/id/komentari`, {params: {vikendica_id: vikendica_id}})
+  }
 }

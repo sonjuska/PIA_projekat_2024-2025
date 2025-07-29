@@ -60,5 +60,20 @@ export class VikendiceComponent implements OnInit{
       return 0;
     });
   }
+  
+  getZvezdice(ocena: number): string[] {
+    const zvezdice: string[] = [];
+
+    for (let i = 1; i <= 5; i++) {
+      if (ocena >= i) {
+        zvezdice.push('fas fa-star'); //puna zvezda
+      } else if (ocena >= i - 0.5) {
+        zvezdice.push('fas fa-star-half-alt'); //pola
+      } else {
+        zvezdice.push('far fa-star'); //prazna zvezda
+      }
+    }
+    return zvezdice;
+  }
 
 }

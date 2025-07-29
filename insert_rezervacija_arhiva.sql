@@ -31,3 +31,21 @@ INSERT INTO arhiva (rezervacija_id, ocena, tekst, datum) VALUES
 ((SELECT id FROM rezervacija WHERE turista = 'nevena' AND vikendica_id = 12 AND datum_do = '2024-08-22' LIMIT 1), 5, 'Odlično mesto za porodični vikend!', '2024-08-23'),
 ((SELECT id FROM rezervacija WHERE turista = 'promi' AND vikendica_id = 13 AND datum_do = '2024-09-03' LIMIT 1), 4, 'Sve ok, ali komšije su bile bučne.', '2024-09-04'),
 ((SELECT id FROM rezervacija WHERE turista = 'promi' AND vikendica_id = 14 AND datum_do = '2024-09-13' LIMIT 1), 5, 'Predivan pogled i čist vazduh!', '2024-09-14');
+
+INSERT INTO rezervacija (
+    vikendica_id, turista, datum_od, datum_do,
+    broj_odraslih, broj_dece, broj_kartice, opis,
+    status, komentar_odbijanja, datum_rezervacije
+) VALUES 
+(11, 'nevena', '2024-01-05', '2024-01-08', 2, 0, '1234567890123456', 'Relax', 'odobrena', '', '2023-11-29'),
+(11, 'promi', '2024-02-05', '2024-02-08', 2, 0, '1234567890123456', 'Pauzica od ucenja', 'odobrena', '', '2023-12-29'),
+(11, 'nevena', '2024-03-05', '2024-03-08', 2, 1, '1234567890123456', 'Relax', 'odobrena', '', '2024-1-29'),
+(11, 'nevena', '2024-05-05', '2024-05-08', 1, 0, '1234567890123456', 'Opet ja kod vas.', 'odobrena', '', '2023-08-29'),
+(11, 'promi', '2024-04-05', '2024-04-08', 4, 0, '1234567890123456', 'Idemo na put.', 'odobrena', '', '2023-06-29');
+
+INSERT INTO arhiva (rezervacija_id, ocena, tekst, datum) VALUES
+((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-01-08' LIMIT 1), 4, 'Vrlo lep ambijent, sve je bilo u redu.', '2024-01-09'),
+((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-02-08' LIMIT 1), 5, 'Pauza od učenja uspela! Sve preporuke.', '2024-02-09'),
+((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-03-08' LIMIT 1), 3, 'Bilo je lepo, ali je moglo biti čistije.', '2024-03-09'),
+((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-04-08' LIMIT 1), 5, 'Idemo na put – i bilo je savršeno!', '2024-04-09'),
+((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-05-08' LIMIT 1), 5, 'Opet ja kod vas – i opet sjajno!', '2024-05-09');

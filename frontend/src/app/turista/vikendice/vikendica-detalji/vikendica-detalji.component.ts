@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Vikendica } from '../../../models/vikendica';
 import { VikendicaService } from '../vikendica.service';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Cenovnik } from '../../../models/cenovnik';
 import * as L from 'leaflet';
+import { Komentar } from '../../../models/komentar';
 
 @Component({
   selector: 'app-vikendica-detalji',
@@ -29,27 +30,31 @@ export class VikendicaDetaljiComponent implements OnInit{
           this.vikendicaServis.getCenovnikVikendice(this.vikendica.id).subscribe(cenovnik=>{
             this.cenovnik = cenovnik;
           })
+          this.vikendicaServis.getKomentareVikendice(this.vikendica.id).subscribe(komentari=>{
+            this.komentari = komentari;
+          })
         }
       });
     }
 
-  setTimeout(() => {
-    const customIcon = L.icon({
-      iconUrl: '/pin_ikona.png',
-      iconSize: [20, 50],     // širina, visina u pikselima
-      iconAnchor: [10, 50],           // donji centar ikone
-      popupAnchor: [0, -40]          // popup ide iznad ikonice
-    });
-    if (this.vikendica) {
-      const map = L.map('map').setView([this.vikendica.lat, this.vikendica.lon], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
-      L.marker([this.vikendica.lat, this.vikendica.lon], {icon: customIcon}).addTo(map)
-    }
-  }, 100); //ceka da se DOM inicijalizuje
-    document.addEventListener('keydown', this.osluskujTastaturu.bind(this));
-}
+    //mapa
+    setTimeout(() => {
+      const customIcon = L.icon({
+        iconUrl: '/pin_ikona.png',
+        iconSize: [20, 50],     //sirina, visina u pikselima
+        iconAnchor: [10, 50],           //donji centar ikone
+        popupAnchor: [0, -40]          //popup ide iznad ikonice
+      });
+      if (this.vikendica) {
+        const map = L.map('map').setView([this.vikendica.lat, this.vikendica.lon], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        L.marker([this.vikendica.lat, this.vikendica.lon], {icon: customIcon}).addTo(map)
+      }
+    }, 100); //ceka da se DOM inicijalizuje
+    document.addEventListener('keydown', this.osluskujTastaturu.bind(this));    //za menjanje slika na dugmice
+  }
 
   ruta = inject(ActivatedRoute);
   vikendicaServis = inject(VikendicaService);
@@ -58,7 +63,13 @@ export class VikendicaDetaljiComponent implements OnInit{
   usluge: string[] = [];
   slike: string[] = [];
   cenovnik: Cenovnik[] = [];
+  komentari: Komentar[] = []
 
+  //paginacija
+  trenutnaStranica: number = 1;
+  brojPoStrani: number = 3;
+
+  //modal
   prikazanaSlika: string | null = null;
 
   otvoriModal(slika: string): void {
@@ -95,8 +106,41 @@ export class VikendicaDetaljiComponent implements OnInit{
     if (!this.prikazanaSlika || this.slike.length === 0) return;
 
     const trenutniIndex = this.slike.indexOf(this.prikazanaSlika);
-    const prethodniIndex = (trenutniIndex - 1 + this.slike.length) % this.slike.length;
+    const prethodniIndex = (trenutniIndex-1 + this.slike.length) % this.slike.length;
     this.prikazanaSlika = this.slike[prethodniIndex];
   }
+
+
+  get prikazaniKomentari(): any[] {
+    const start = (this.trenutnaStranica - 1) * this.brojPoStrani;
+    return this.komentari.slice(start, start + this.brojPoStrani);
+  }
+
+  ukupnoStranica(): number {
+    return Math.ceil(this.komentari.length/this.brojPoStrani);
+  }
+
+  promeniStranicu(nova: number): void {
+    if (nova >= 1 && nova <= this.ukupnoStranica()) {
+      this.trenutnaStranica = nova;
+    }
+  }
+
+  getZvezdice(): string[] {
+    const ocena = this.vikendica.prosecna_ocena;
+    const zvezdice: string[] = [];
+
+    for (let i = 1; i <= 5; i++) {
+      if (ocena >= i) {
+        zvezdice.push('fas fa-star'); //puna zvezda
+      } else if (ocena >= i - 0.5) {
+        zvezdice.push('fas fa-star-half-alt'); //pola
+      } else {
+        zvezdice.push('far fa-star'); //prazna zvezda
+      }
+    }
+    return zvezdice;
+  }
+
 
 }

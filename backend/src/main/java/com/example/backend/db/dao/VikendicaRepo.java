@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.example.backend.db.DB;
 import com.example.backend.modeli.Cenovnik;
+import com.example.backend.modeli.Komentar;
 import com.example.backend.modeli.Vikendica;
 
 public class VikendicaRepo {
@@ -192,6 +193,37 @@ public class VikendicaRepo {
         }
 
         return cenovnik;
+    }
+
+    public List<Komentar> getKomentarVikendice(int vikendica_id){
+        List<Komentar> komentari = new ArrayList<>();
+        
+        String sql = """
+            SELECT k.ocena, k.tekst, k.datum
+            FROM rezervacija r JOIN arhiva k on (r.id = k.rezervacija_id)
+            WHERE r.vikendica_id = ?
+        """;
+
+        try (Connection conn = DB.source().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, vikendica_id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+               Komentar c = new Komentar(
+                rs.getInt("ocena"),
+                rs.getString("tekst"),
+                rs.getTimestamp("datum").toLocalDateTime()
+               );
+               komentari.add(c);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return komentari;
     }
 
 }
