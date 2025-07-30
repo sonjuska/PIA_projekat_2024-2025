@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ZakazivanjeService } from './zakazivanje.service';
 
 
 @Component({
@@ -50,11 +51,12 @@ export class ZakazivanjeComponent implements OnInit{
 
   vikendicaServis = inject(VikendicaService)
   turistaServis = inject(TuristaService)
+  zakazivanjeServis = inject(ZakazivanjeService)
   ruta = inject(ActivatedRoute)
 
   korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
   vikendica: Vikendica = new Vikendica();
-  korak: number = 1;
+  korak: number = 2;
   datumOd: string = '';
   datumDo: string = '';
   satiDolaska: string[] = [];
@@ -64,9 +66,13 @@ export class ZakazivanjeComponent implements OnInit{
   brojOdraslih: number = 0;
   brojDece: number = 0;
   brojKartice: string = '';
+  ukupnaCena: number = 0.0;
 
   sledeciKorak(){
     if(this.korak==1) this.korak = 2;
+    this.zakazivanjeServis.izracunajCenuZakazivanja(this.vikendica.id, this.datumOd, this.datumDo, this.brojOdraslih, this.brojDece).subscribe(cena=>{
+      this.ukupnaCena = cena;
+    });
   }
   prethodniKorak(){
     if(this.korak==2) this.korak = 1;
