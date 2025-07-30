@@ -1,0 +1,104 @@
+.zakazivanje-wrapper {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+  background-color:  rgba(255, 248, 240, 0.95); 
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.zakazivanje-wrapper h2 {
+  text-align: center;
+  color: #563b09;
+  margin-bottom: 25px;
+}
+
+.step {
+  background-color: #fefefe;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.step h3 {
+  color: #333;
+}
+
+.step label {
+  font-weight: 600;
+  margin-top: 8px;
+  color: #333;
+}
+
+.step input[type="text"],
+.step input[type="number"],
+.step input[type="date"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border 0.2s ease-in-out;
+}
+
+.step input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.step p {
+  margin: 0;
+  font-size: 15px;
+  color: #444;
+}
+
+.step strong {
+  color: #222;
+  font-weight: bold;
+}
+
+.dugmad {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: #005dc6;
+}
+
+.btn.secondary {
+  background-color: #7d766c;
+  color: white;
+}
+
+.btn.secondary:hover {
+  background-color: #645f56;
+}
+.mat-datepicker {
+  width: 100%;
+  margin-bottom: 15px;
+}

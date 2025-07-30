@@ -12,6 +12,7 @@ h2 {
   color: #3e2723; /* tamna braon za naslove */
   margin-bottom: 15px;
 }
+/*navigacija*/
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -22,7 +23,7 @@ h2 {
   border-radius: 8px;
   margin-bottom: 20px;
 }
-/*navigacija*/
+
 .navbar-brand {
   font-size: 1.5em;
   font-weight: bold;
@@ -55,6 +56,9 @@ h2 {
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.obavezno{
+  color: red;
 }
 
 .info-grid {
@@ -389,6 +393,52 @@ input[type="text"] {
 .paginacija span {
   font-weight: bold;
   font-size: 15px;
+}
+
+/* biranje datuma*/
+input[type="date"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="date"]:focus {
+  border-color: #512602;
+  outline: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.3);
+  cursor: pointer;
+}
+
+/*select*/
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  cursor: pointer;
+  transition: border 0.2s ease-in-out;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 

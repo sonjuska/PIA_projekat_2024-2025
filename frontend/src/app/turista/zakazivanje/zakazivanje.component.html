@@ -1,0 +1,69 @@
+<div class="zakazivanje-wrapper">
+  <form #formaZakazivanja="ngForm" (ngSubmit)="potvrdi()" class="step-form">
+
+    <h2>Zakazivanje vikendice</h2><hr>
+
+    <!--korak 1-->
+    <div *ngIf="korak === 1" class="step">
+      <h3>Korak 1: Unos termina i posetilaca</h3>
+
+      <div>
+        <label>Datum od: <span class="obavezno">*</span></label>
+        <input type="date" name="datumOd" [(ngModel)]="datumOd" [min]="sutra" required/>
+      </div>
+
+    <div>
+        <label>Vreme dolaska (od): <span class="obavezno">*</span></label>
+        <select name="vremeOd" [(ngModel)]="vremeOd" required>
+            <option *ngFor="let sat of satiDolaska" [value]="sat">{{ sat }}</option>
+        </select>
+    </div>
+
+      <div>
+        <label>Datum do: <span class="obavezno">*</span></label>
+        <input type="date" name="datumDo" [(ngModel)]="datumDo" required/>
+      </div>
+    <div>
+        <label>Vreme odlaska (do): <span class="obavezno">*</span></label>
+        <select name="vremeDo" [(ngModel)]="vremeDo" required>
+            <option *ngFor="let sat of satiOdlaska" [value]="sat">{{ sat }}</option>
+        </select>
+    </div>
+
+      <div>
+        <label>Broj odraslih: <span class="obavezno">*</span></label>
+        <input type="number" name="brojOdraslih" [(ngModel)]="brojOdraslih" min="1" required />
+      </div>
+
+      <div>
+        <label>Broj dece: <span class="obavezno">*</span></label>
+        <input type="number" name="brojDece" [(ngModel)]="brojDece" min="0" required />
+      </div>
+
+      <div class="dugmad">
+        <button class="btn" [disabled]="!formaZakazivanja.valid" type="button" (click)="sledeciKorak()">Nastavi</button>
+      </div>
+    </div>
+
+    <!--korak 2-->
+    <div *ngIf="korak === 2" class="step">
+      <h3>Korak 2: Pregled i plaćanje</h3>
+
+      <p><strong>Vikendica:</strong> {{ vikendica.naziv }}</p>
+      <p><strong>Od dana:</strong> {{ datumOd }} {{vremeOd}}</p>
+      <p><strong>Do dana:</strong> {{ datumDo }} {{vremeDo}}</p>
+      <p><strong>Broj odraslih:</strong> {{ brojOdraslih }}</p>
+      <p><strong>Broj dece:</strong> {{ brojDece }}</p>
+
+      <div>
+        <label>Broj kartice za plaćanje: <span class="obavezno">*</span></label>
+        <input type="text" name="kartica" [(ngModel)]="brojKartice" maxlength="16" pattern="[0-9]{16}" (keypress)="dozvoliSamoBrojeve($event)" required />
+      </div>
+
+      <div class="dugmad">
+        <button type="button" class="btn-back" (click)="prethodniKorak()">Nazad</button>
+        <button type="submit" class="btn primary" [disabled]="!formaZakazivanja.valid">Potvrdi rezervaciju</button>
+      </div>
+    </div>
+  </form>
+</div>

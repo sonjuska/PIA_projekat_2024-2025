@@ -3,28 +3,28 @@
     <h2>Registracija</h2>
     <hr><br>
     <div class="form-group">
-      <label for="korime">Korisničko ime: *</label>
+      <label for="korime">Korisničko ime: <span style="color: red;">*</span></label>
       <input type="text" id="korime" name="korime" [(ngModel)]="korime" required />
     </div>
 
     <div class="form-group">
-      <label for="lozinka">Lozinka: *</label>
+      <label for="lozinka">Lozinka: <span style="color: red;">*</span></label>
       <input type="password" id="lozinka" name="lozinka" [(ngModel)]="lozinka" (input)="proveriLozinku()" required />
       <div *ngIf="!validnaLozinka && lozinka" class="error-msg">Lozinka nije validna!</div>
     </div>
 
     <div class="form-group">
-      <label for="ime">Ime: *</label>
+      <label for="ime">Ime: <span style="color: red;">*</span></label>
       <input type="text" id="ime" name="ime" [(ngModel)]="ime" required />
     </div>
 
     <div class="form-group">
-      <label for="prezime">Prezime: *</label>
+      <label for="prezime">Prezime: <span style="color: red;">*</span></label>
       <input type="text" id="prezime" name="prezime" [(ngModel)]="prezime" required />
     </div>
 
     <div class="form-group">
-      <label for="pol">Pol: *</label>
+      <label for="pol">Pol: <span style="color: red;">*</span></label>
       <select id="pol" name="pol" [(ngModel)]="pol" required>
         <option value="">-- izaberi --</option>
         <option value="M">M</option>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-      <label for="adresa">Adresa:</label>
+      <label for="adresa">Adresa: <span style="color: red;">*</span></label>
       <input type="text" id="adresa" name="adresa" [(ngModel)]="adresa" />
     </div>
 
@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group">
-      <label for="email">E-mail: *</label>
+      <label for="email">E-mail: <span style="color: red;">*</span></label>
       <input type="email" id="email" name="email" [(ngModel)]="email" required />
     </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div class="form-group">
-      <label for="kartica">Broj kartice: *</label>
+      <label for="kartica">Broj kartice: <span style="color: red;">*</span></label>
       <div class="kartica-wrapper">
         <input type="text" id="kartica" name="kartica" [(ngModel)]="brojKartice" (input)="proveriKarticu()" required (keypress)="dozvoliSamoBrojeve($event)"/>
         <img *ngIf="karticaTip" [src]="karticaIkonica" width="40" height="25" />
@@ -63,7 +63,7 @@
     <div class="error-msg">{{this.karticaPoruka}}</div>
 
     <div class="form-group">
-      <label for="uloga">Uloga: *</label>
+      <label for="uloga">Uloga: <span style="color: red;">*</span></label>
       <select id="uloga" name="uloga" [(ngModel)]="uloga" required>
         <option value="">-- izaberi --</option>
         <option value="turista">Turista</option>

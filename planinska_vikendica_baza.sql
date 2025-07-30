@@ -14,7 +14,7 @@ CREATE TABLE korisnik (
     email VARCHAR(100) UNIQUE,
     profilna_slika_path VARCHAR(255),
     broj_kartice VARCHAR(20),
-    uloga VARCHAR(20) CHECK (uloga IN ('turista', 'vlasnik', 'administrator')) NOT NULL,
+    uloga ENUM('turista', 'vlasnik', 'administrator') NOT NULL,
     aktivan TINYINT(1) DEFAULT 0
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE rezervacija (
 );
 
 -- Tabela za komentare i ocene
-CREATE TABLE komentar (
+CREATE TABLE arhiva (
     id INT AUTO_INCREMENT PRIMARY KEY,
     rezervacija_id INT,
     ocena INT CHECK (ocena BETWEEN 1 AND 5),

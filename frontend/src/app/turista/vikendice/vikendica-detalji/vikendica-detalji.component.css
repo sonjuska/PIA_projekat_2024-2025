@@ -61,4 +61,20 @@
   scroll-snap-align: start;
   flex-shrink: 0;
 }
+.btn-zakazi {
+  background-color: #007bff;     
+  color: white;                  
+  width: 100%;                   
+  border: none;                  
+  border-radius: 8px;            /* zaobljene ivice */
+  padding: 10px 16px;            /* prostor unutar dugmeta */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-zakazi:hover {
+  background-color: #0056b3;     
+}
+
 

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Vikendica } from '../../../models/vikendica';
 import { VikendicaService } from '../vikendica.service';
 import { CommonModule} from '@angular/common';
@@ -57,6 +57,7 @@ export class VikendicaDetaljiComponent implements OnInit{
   }
 
   ruta = inject(ActivatedRoute);
+  ruter = inject(Router)
   vikendicaServis = inject(VikendicaService);
 
   vikendica: Vikendica = new Vikendica();
@@ -142,5 +143,9 @@ export class VikendicaDetaljiComponent implements OnInit{
     return zvezdice;
   }
 
+  zakazi(){
+    if(!this.vikendica.id) return;
+    this.ruter.navigate(['turista/zakazivanje', this.vikendica.id]);
+  }
 
 }
