@@ -1,0 +1,95 @@
+<div class="lista-rezervacija">
+  <h2>Lista aktivnih rezervacija</h2>
+  <table class="rezervacije-table" *ngIf="aktivneRezervacije.length > 0; else nemaAktivnih">
+    <thead>
+      <tr>
+        <th>Naziv vikendice</th>
+        <th>Datum dolaska</th>
+        <th>Datum odlaska</th>
+        <th>Broj odraslih</th>
+        <th>Broj dece</th>
+        <th>Opis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of aktivneRezervacije">
+        <td>{{ r.naziv }}</td>
+        <td>{{ r.datum_od  | date:'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
+        <td>{{ r.datum_do  | date:'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
+        <td>{{ r.broj_odraslih }}</td>
+        <td>{{ r.broj_dece }}</td>
+        <td>{{ r.opis }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #nemaAktivnih>
+    <p style="margin-top: 10px;">Nemate aktivnih rezervacija.</p>
+  </ng-template>
+</div>
+
+<div class="lista-rezervacija">
+  <h2>Lista arhiviranih rezervacija</h2>
+  <table class="rezervacije-table" *ngIf="arhiviraneRezervacije.length > 0; else nemaArhiviranih">
+    <thead>
+      <tr>
+        <th>Naziv vikendice</th>
+        <th>Datum dolaska</th>
+        <th>Datum odlaska</th>
+        <th>Broj odraslih</th>
+        <th>Broj dece</th>
+        <th>Opis</th>
+        <th>Komentar</th>
+        <th>Akcija</th>
+      </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let r of arhiviraneRezervacije; let i = index">
+        <tr>
+        <td>{{ r.naziv }}</td>
+        <td>{{ r.datum_od | date: 'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
+        <td>{{ r.datum_do | date: 'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
+        <td>{{ r.broj_odraslih }}</td>
+        <td>{{ r.broj_dece }}</td>
+        <td>{{ r.opis }}</td>
+        <td>{{r.tekst}}</td>
+        <td>
+            <button class="btn" *ngIf="(r.ocena === 0 || r.ocena == null || r.ocena==undefined) && (r.tekst === '' || r.tekst==null || r.tekst==undefined)" (click)="otvoriKomentar(i)">
+            Komentariši
+            </button>
+        </td>
+        </tr>
+
+        <tr *ngIf="openedIndex === i">
+        <td colspan="8">
+            <div class="komentar-forma">
+                <label>Ocena:</label>
+                <div class="zvezdice">
+                    <span *ngFor="let i of [1,2,3,4,5]">
+                        <i
+                        class="fa-star"
+                        [ngClass]="r.ocena >= i ? 'fas' : 'far'"
+                        (click)="r.ocena = i"
+                        style="cursor: pointer; color: gold; font-size: 20px;"
+                        ></i>
+                    </span>
+
+                </div>
+            <br/>
+
+            <label>Komentar:</label>
+            <textarea [(ngModel)]="r.tekst" rows="3" style="width: 100%"></textarea>
+            <br/>
+
+            <button class="btn primary" (click)="posaljiKomentar(r)">Pošalji</button>
+            </div>
+        </td>
+        </tr>
+    </ng-container>
+    </tbody>
+
+  </table>
+
+  <ng-template #nemaArhiviranih>
+    <p style="margin-top: 10px;">Nemate aktivnih rezervacija.</p>
+  </ng-template>
+</div>

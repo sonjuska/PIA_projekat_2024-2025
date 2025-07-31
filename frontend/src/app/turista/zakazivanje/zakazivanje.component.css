@@ -81,23 +81,6 @@
   transition: background-color 0.2s ease;
 }
 
-.btn.primary {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn.primary:hover {
-  background-color: #005dc6;
-}
-
-.btn.secondary {
-  background-color: #7d766c;
-  color: white;
-}
-
-.btn.secondary:hover {
-  background-color: #645f56;
-}
 .mat-datepicker {
   width: 100%;
   margin-bottom: 15px;

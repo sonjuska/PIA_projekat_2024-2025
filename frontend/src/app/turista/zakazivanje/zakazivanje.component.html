@@ -21,7 +21,7 @@
 
       <div>
         <label>Datum do: <span class="obavezno">*</span></label>
-        <input type="date" name="datumDo" [(ngModel)]="datumDo" required/>
+        <input type="date" name="datumDo" [(ngModel)]="datumDo" [min]="sutra" required/>
       </div>
     <div>
         <label>Vreme odlaska (do): <span class="obavezno">*</span></label>
