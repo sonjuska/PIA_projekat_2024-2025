@@ -102,3 +102,18 @@
   width: 100%;
   margin-bottom: 15px;
 }
+.dodatni-zahtevi {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.dodatni-zahtevi textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 8px;
+  font-size: 1rem;
+  resize: vertical; /* dozvoljava da korisnik menja visinu */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

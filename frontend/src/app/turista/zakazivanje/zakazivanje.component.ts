@@ -16,7 +16,12 @@ import { ZakazivanjeService } from './zakazivanje.service';
 @Component({
   selector: 'app-zakazivanje',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule],
   templateUrl: './zakazivanje.component.html',
   styleUrl: './zakazivanje.component.css'
 })
@@ -56,29 +61,44 @@ export class ZakazivanjeComponent implements OnInit{
 
   korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
   vikendica: Vikendica = new Vikendica();
-  korak: number = 2;
+  korak: number = 1;
   datumOd: string = '';
   datumDo: string = '';
   satiDolaska: string[] = [];
   satiOdlaska: string[] = [];
   vremeOd: string = '14:00';
   vremeDo: string = '10:00';
-  brojOdraslih: number = 0;
+  brojOdraslih: number = 1;
   brojDece: number = 0;
   brojKartice: string = '';
   ukupnaCena: number = 0.0;
+  dodatniZahtevi: string = ''
+
+  porukaGreske: string = '';
 
   sledeciKorak(){
-    if(this.korak==1) this.korak = 2;
-    this.zakazivanjeServis.izracunajCenuZakazivanja(this.vikendica.id, this.datumOd, this.datumDo, this.brojOdraslih, this.brojDece).subscribe(cena=>{
-      this.ukupnaCena = cena;
-    });
+    if(new Date(this.datumOd)>=new Date(this.datumDo)){
+      this.porukaGreske = 'Datum dolaska mora biti pre datuma odlaska.';
+      return;
+    }
+    if(this.korak==1){
+      this.korak = 2;
+      this.porukaGreske = '';
+      this.zakazivanjeServis.izracunajCenuZakazivanja(this.vikendica.id, this.datumOd, this.datumDo, this.brojOdraslih, this.brojDece).subscribe(cena=>{
+        this.ukupnaCena = cena;
+      });
+    }
   }
   prethodniKorak(){
     if(this.korak==2) this.korak = 1;
   }
-  potvrdi(){
-
+  potvrdiZakazivanje(){
+    this.zakazivanjeServis.potvrdiZakazivanje(this.vikendica.id, this.korisnik.korisnicko_ime, this.datumOd, this.vremeOd, this.datumDo,
+      this.vremeDo, this.brojOdraslih, this.brojDece, this.brojKartice, this.dodatniZahtevi
+    ).subscribe(res=>{
+      alert(res.poruka)
+      this.korak = 1;
+    })
   }
 
   generisiSate(pocetak: number, kraj: number): string[] {

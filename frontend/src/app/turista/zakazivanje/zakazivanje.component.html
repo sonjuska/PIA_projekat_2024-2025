@@ -1,5 +1,5 @@
 <div class="zakazivanje-wrapper">
-  <form #formaZakazivanja="ngForm" (ngSubmit)="potvrdi()" class="step-form">
+  <form #formaZakazivanja="ngForm" (ngSubmit)="potvrdiZakazivanje()" class="step-form">
 
     <h2>Zakazivanje vikendice</h2><hr>
 
@@ -32,17 +32,20 @@
 
       <div>
         <label>Broj odraslih: <span class="obavezno">*</span></label>
-        <input type="number" name="brojOdraslih" [(ngModel)]="brojOdraslih" min="1" required />
+        <input type="number" name="brojOdraslih" [(ngModel)]="brojOdraslih" min="1"  required />
       </div>
 
       <div>
         <label>Broj dece: <span class="obavezno">*</span></label>
         <input type="number" name="brojDece" [(ngModel)]="brojDece" min="0" required />
       </div>
+      
+      <div *ngIf="porukaGreske" class="error-msg">{{ porukaGreske }}</div>
 
       <div class="dugmad">
         <button class="btn" [disabled]="!formaZakazivanja.valid" type="button" (click)="sledeciKorak()">Nastavi</button>
       </div>
+
     </div>
 
     <!--korak 2-->
@@ -61,10 +64,17 @@
         <input type="text" name="kartica" [(ngModel)]="brojKartice" maxlength="16" pattern="[0-9]{16}" (keypress)="dozvoliSamoBrojeve($event)" required />
       </div>
 
+      <div class="dodatni-zahtevi">
+        <label for="dodatniZahtevi">Dodatni zahtevi (opciono):</label>
+        <textarea id="dodatniZahtevi" name="dodatniZahtevi" [(ngModel)]="dodatniZahtevi"></textarea>
+      </div>
+
       <div class="dugmad">
         <button type="button" class="btn-back" (click)="prethodniKorak()">Nazad</button>
         <button type="submit" class="btn primary" [disabled]="!formaZakazivanja.valid">Potvrdi rezervaciju</button>
       </div>
+
     </div>
+
   </form>
 </div>
