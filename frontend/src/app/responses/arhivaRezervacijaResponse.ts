@@ -1,4 +1,5 @@
 export class ArhivaRezervacijaResponse{
+  id: number = 0;
   naziv: string = '';       
   datum_od: string = '';
   vreme_od: string = '';

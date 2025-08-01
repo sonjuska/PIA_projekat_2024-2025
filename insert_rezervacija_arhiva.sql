@@ -30,7 +30,7 @@ INSERT INTO arhiva (rezervacija_id, ocena, tekst, datum) VALUES
 ((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-08-08' LIMIT 1), 4, 'Prijatno iskustvo u Zemunu.', '2024-08-09'),
 ((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-08-22' LIMIT 1), 5, 'Odlično mesto za porodični vikend!', '2024-08-23'),
 ((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-09-03' LIMIT 1), 4, 'Sve ok, ali komšije su bile bučne.', '2024-09-04'),
-((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-09-13' LIMIT 1), 5, 'Predivan pogled i čist vazduh!', '2024-09-14');
+((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-09-13' LIMIT 1), null, '', '2024-09-14');
 
 INSERT INTO rezervacija (
     vikendica_id, turista, datum_od, datum_do,
@@ -47,5 +47,5 @@ INSERT INTO arhiva (rezervacija_id, ocena, tekst, datum) VALUES
 ((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-01-08' LIMIT 1), 4, 'Vrlo lep ambijent, sve je bilo u redu.', '2024-01-09'),
 ((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-02-08' LIMIT 1), 5, 'Pauza od učenja uspela! Sve preporuke.', '2024-02-09'),
 ((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-03-08' LIMIT 1), 3, 'Bilo je lepo, ali je moglo biti čistije.', '2024-03-09'),
-((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-04-08' LIMIT 1), 5, 'Idemo na put – i bilo je savršeno!', '2024-04-09'),
-((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-05-08' LIMIT 1), 5, 'Opet ja kod vas – i opet sjajno!', '2024-05-09');
+((SELECT id FROM rezervacija WHERE turista = 'promi' AND datum_do = '2024-04-08' LIMIT 1), null, '', '2024-04-09'),
+((SELECT id FROM rezervacija WHERE turista = 'nevena' AND datum_do = '2024-05-08' LIMIT 1), null, '', '2024-05-09');

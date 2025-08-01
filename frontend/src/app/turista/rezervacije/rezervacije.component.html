@@ -45,44 +45,43 @@
     <tbody>
     <ng-container *ngFor="let r of arhiviraneRezervacije; let i = index">
         <tr>
-        <td>{{ r.naziv }}</td>
-        <td>{{ r.datum_od | date: 'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
-        <td>{{ r.datum_do | date: 'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
-        <td>{{ r.broj_odraslih }}</td>
-        <td>{{ r.broj_dece }}</td>
-        <td>{{ r.opis }}</td>
-        <td>{{r.tekst}}</td>
-        <td>
-            <button class="btn" *ngIf="(r.ocena === 0 || r.ocena == null || r.ocena==undefined) && (r.tekst === '' || r.tekst==null || r.tekst==undefined)" (click)="otvoriKomentar(i)">
-            Komentariši
+          <td>{{ r.naziv }}</td>
+          <td>{{ r.datum_od | date: 'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
+          <td>{{ r.datum_do | date: 'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
+          <td>{{ r.broj_odraslih }}</td>
+          <td>{{ r.broj_dece }}</td>
+          <td>{{ r.opis }}</td>
+          <td>{{r.tekst}}</td>
+          <td>
+            <button class="btn" *ngIf="mapaOtvorenihKomentara.has(i)" (click)="otvoriKomentar(i)">
+              Komentariši
             </button>
-        </td>
+          </td>
         </tr>
 
-        <tr *ngIf="openedIndex === i">
-        <td colspan="8">
-            <div class="komentar-forma">
+        <tr *ngIf="mapaOtvorenihKomentara.get(i)">
+          <td colspan="8">
+              <div class="komentar-forma">
                 <label>Ocena:</label>
                 <div class="zvezdice">
-                    <span *ngFor="let i of [1,2,3,4,5]">
+                    <span *ngFor="let z of [1,2,3,4,5]">
                         <i
                         class="fa-star"
-                        [ngClass]="r.ocena >= i ? 'fas' : 'far'"
-                        (click)="r.ocena = i"
+                        [ngClass]="r.ocena >= z ? 'fas' : 'far'"
+                        (click)="r.ocena = z"
                         style="cursor: pointer; color: gold; font-size: 20px;"
                         ></i>
                     </span>
-
                 </div>
-            <br/>
+                <br/>
 
-            <label>Komentar:</label>
-            <textarea [(ngModel)]="r.tekst" rows="3" style="width: 100%"></textarea>
-            <br/>
-
-            <button class="btn primary" (click)="posaljiKomentar(r)">Pošalji</button>
-            </div>
-        </td>
+                <label>Komentar:</label>
+                <textarea [(ngModel)]="r.tekst" rows="3" style="width: 100%"></textarea>
+                <br/>
+                <div class="error-msg">{{porukaGreske}}</div>
+                <button class="btn primary" (click)="posaljiKomentar(r)">Pošalji</button>
+              </div>
+          </td>
         </tr>
     </ng-container>
     </tbody>

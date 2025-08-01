@@ -30,35 +30,64 @@ export class RezervacijeComponent implements OnInit{
             this.rezervacijaServis.dohvatiArhiviraneRezervacije(this.korisnik.korisnicko_ime).subscribe(rez=>{
             this.arhiviraneRezervacije = rez;
             console.log(this.arhiviraneRezervacije)
+
+            //inicijalizacija mape za komentarisanje arhiviranih rez
+            this.arhiviraneRezervacije.forEach((r, index) => {
+              if ((r.ocena === 0 || r.ocena == null) && (!r.tekst || r.tekst.trim() === '')) {
+                this.mapaOtvorenihKomentara.set(index, false);
+              }
+            });
+
           })
         }
       })
     }
   }
 
-    vikendicaServis = inject(VikendicaService)
-    turistaServis = inject(TuristaService)
-    rezervacijaServis = inject(RezervacijeService)
-    ruta = inject(ActivatedRoute)
-  
-    korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
-    aktivneRezervacije: DohvatiRezervacijuResponse[] = [];
-    arhiviraneRezervacije: ArhivaRezervacijaResponse[] = []
-    novaOcena: number = 0;
-    noviTekst: string = '';
-    openedIndex: number | null = null;
-    tekst: string = '';
-    ocena: number = 0;
+  vikendicaServis = inject(VikendicaService)
+  turistaServis = inject(TuristaService)
+  rezervacijaServis = inject(RezervacijeService)
+  ruta = inject(ActivatedRoute)
 
-    otvoriKomentar(i: number): void {
-      if(this.openedIndex===i) this.openedIndex = null;
-      else{
-        this.openedIndex = i;
-        this.tekst = '';
-      }
+  korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
+  aktivneRezervacije: DohvatiRezervacijuResponse[] = [];
+  arhiviraneRezervacije: ArhivaRezervacijaResponse[] = []
+  novaOcena: number = 0;
+  noviTekst: string = '';
+  openedIndex: number | null = null;
+  tekst: string = '';
+  ocena: number = 0;
+  porukaGreske: string = '';
 
-    }
-  posaljiKomentar(arg0: any) {
-    throw new Error('Method not implemented.');
+  mapaOtvorenihKomentara: Map<number, boolean> = new Map();
+
+
+  otvoriKomentar(i: number): void {
+    const trenutno = this.mapaOtvorenihKomentara.get(i) || false;
+    this.mapaOtvorenihKomentara.set(i, !trenutno);
   }
+
+  posaljiKomentar(a: ArhivaRezervacijaResponse) {
+    if(!a.tekst || a.tekst.trim() === '' || !a.ocena){
+      this.porukaGreske = 'Morate uneti i komentar i ocenu.';
+      return;
+    }
+    this.rezervacijaServis.posaljiKomentar(a).subscribe(res => {
+      if (res) {
+        this.porukaGreske = '';
+        this.rezervacijaServis.dohvatiArhiviraneRezervacije(this.korisnik.korisnicko_ime).subscribe(rez => {
+          this.arhiviraneRezervacije = rez;
+
+          //reeinicijalizovanje mape komentara
+          this.mapaOtvorenihKomentara.clear();
+          this.arhiviraneRezervacije.forEach((r, index) => {
+            if ((r.ocena === 0 || r.ocena == null) && (!r.tekst || r.tekst.trim() === '')) {
+              this.mapaOtvorenihKomentara.set(index, false);
+            }
+          });
+        });
+      }
+    });
+  }
+
 }

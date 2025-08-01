@@ -1,6 +1,7 @@
 package com.example.backend.modeli.responses;
 
 public class ArhivaRezervacijaResponse {
+    private int id;
     private String naziv;
     private String datum_od;
     private String vreme_od;
@@ -13,9 +14,10 @@ public class ArhivaRezervacijaResponse {
     private int ocena;
     private String tekst;
 
-    public ArhivaRezervacijaResponse(String naziv, String datum_od, String vreme_od, String datum_do, String vreme_do,
-                                     int broj_odraslih, int broj_dece, String broj_kartice, String opis,
-                                     int ocena, String tekst) {
+    public ArhivaRezervacijaResponse(int id, String naziv, String datum_od, String vreme_od, String datum_do,
+            String vreme_do, int broj_odraslih, int broj_dece, String broj_kartice, String opis, int ocena,
+            String tekst) {
+        this.id = id;
         this.naziv = naziv;
         this.datum_od = datum_od;
         this.vreme_od = vreme_od;
@@ -27,6 +29,14 @@ public class ArhivaRezervacijaResponse {
         this.opis = opis;
         this.ocena = ocena;
         this.tekst = tekst;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNaziv() {

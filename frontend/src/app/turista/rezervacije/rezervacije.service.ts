@@ -19,4 +19,7 @@ export class RezervacijeService {
   dohvatiArhiviraneRezervacije(turista: string): Observable<ArhivaRezervacijaResponse[]>{
     return this.http.get<ArhivaRezervacijaResponse[]>(`${this.url}/arhivirane`, {params: {turista: turista}});
   }
+  posaljiKomentar(arhiva: ArhivaRezervacijaResponse){
+    return this.http.put<number>(`${this.url}/posaljiKomentar`, arhiva);
+  }
 }

@@ -66,7 +66,7 @@ public class RezervacijeRepo {
         List<ArhivaRezervacijaResponse> rezultat = new ArrayList<>();
 
         String sql = """
-            SELECT v.naziv, r.datum_od, r.datum_do, r.broj_odraslih, r.broj_dece, r.broj_kartice, 
+            SELECT a.id, v.naziv, r.datum_od, r.datum_do, r.broj_odraslih, r.broj_dece, r.broj_kartice, 
                    r.opis, a.ocena, a.tekst
             FROM arhiva a
             JOIN rezervacija r ON a.rezervacija_id = r.id
@@ -82,6 +82,7 @@ public class RezervacijeRepo {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                int id = rs.getInt("id");
                 String naziv = rs.getString("naziv");
 
                 LocalDateTime datumOd = rs.getTimestamp("datum_od").toLocalDateTime();
@@ -100,7 +101,7 @@ public class RezervacijeRepo {
                 int ocena = rs.getInt("ocena");
                 String tekst = rs.getString("tekst");
 
-                ArhivaRezervacijaResponse arhiva = new ArhivaRezervacijaResponse(
+                ArhivaRezervacijaResponse arhiva = new ArhivaRezervacijaResponse(id,
                     naziv, datum_od, vreme_od, datum_do, vreme_do,
                         broj_odraslih, broj_dece, broj_kartice, opis, ocena, tekst
                 );
@@ -114,6 +115,25 @@ public class RezervacijeRepo {
 
         return rezultat;
     }
+
+    public int posaljiKomentar(ArhivaRezervacijaResponse arhiva) {
+        String sql = "UPDATE arhiva SET ocena = ?, tekst = ? WHERE id = ?";
+
+        try (Connection conn = DB.source().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, arhiva.getOcena());
+            stmt.setString(2, arhiva.getTekst());
+            stmt.setLong(3, arhiva.getId());
+
+            return stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }
     
 
