@@ -3,22 +3,24 @@
   <table class="rezervacije-table" *ngIf="aktivneRezervacije.length > 0; else nemaAktivnih">
     <thead>
       <tr>
-        <th>Naziv vikendice</th>
         <th>Datum dolaska</th>
         <th>Datum odlaska</th>
-        <th>Broj odraslih</th>
-        <th>Broj dece</th>
-        <th>Opis</th>
+        <th>Naziv vikendice</th>
+        <th>Mesto vikendice</th>
+        <th>Otkazivanje</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let r of aktivneRezervacije">
-        <td>{{ r.naziv }}</td>
         <td>{{ r.datum_od  | date:'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
         <td>{{ r.datum_do  | date:'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
-        <td>{{ r.broj_odraslih }}</td>
-        <td>{{ r.broj_dece }}</td>
-        <td>{{ r.opis }}</td>
+        <td>{{ r.naziv }}</td>
+        <td>{{ r.mesto }}</td>
+        <td>
+          <button class="btn" (click)="otkaziRezervaciju(r.id)" [disabled]="nemoguceOtkazivanje(r)">
+            Otkaži
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

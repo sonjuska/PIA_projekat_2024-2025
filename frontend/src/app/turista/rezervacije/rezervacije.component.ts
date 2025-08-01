@@ -26,6 +26,7 @@ export class RezervacijeComponent implements OnInit{
           this.korisnik = kor;
           this.rezervacijaServis.dohvatiAktivneRezervacije(this.korisnik.korisnicko_ime).subscribe(rez=>{
             this.aktivneRezervacije = rez;
+            console. log(this.aktivneRezervacije)
           })
             this.rezervacijaServis.dohvatiArhiviraneRezervacije(this.korisnik.korisnicko_ime).subscribe(rez=>{
             this.arhiviraneRezervacije = rez;
@@ -88,6 +89,24 @@ export class RezervacijeComponent implements OnInit{
         });
       }
     });
+  }
+
+  nemoguceOtkazivanje(r: DohvatiRezervacijuResponse): Boolean{
+  if (!r.datum_od || !r.vreme_od) return false;
+
+  //datum i vreme u ISO format: "yyyy-MM-ddTHH:mm"
+  const datumVremeOdStr = `${r.datum_od}T${r.vreme_od}`;
+  const datumVremeOd = new Date(datumVremeOdStr);
+
+  const sada = new Date();
+
+  const razlikaUMilisekundama = datumVremeOd.getTime() - sada.getTime();
+  const razlikaUDanima = razlikaUMilisekundama / (1000 * 60 * 60 * 24);
+
+  return razlikaUDanima < 1;
+  }
+  otkaziRezervaciju(id: number){
+  
   }
 
 }

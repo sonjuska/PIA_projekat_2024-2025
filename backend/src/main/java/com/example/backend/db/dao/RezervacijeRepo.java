@@ -17,7 +17,7 @@ public class RezervacijeRepo {
      public List<DohvatiRezervacijuResponse> aktivneRezervacijeZaTuristu(String turista) {
 
         String sql = """
-            SELECT v.naziv, r.datum_od, r.datum_do, r.broj_odraslih, r.broj_dece,
+            SELECT r.id, v.naziv, v.mesto, r.datum_od, r.datum_do, r.broj_odraslih, r.broj_dece,
                 r.broj_kartice, r.opis
             FROM rezervacija r
             JOIN vikendica v ON r.vikendica_id = v.id
@@ -41,7 +41,9 @@ public class RezervacijeRepo {
                 String vremeDo = rs.getTimestamp("datum_do").toLocalDateTime().toLocalTime().toString().substring(0, 5);
 
                 DohvatiRezervacijuResponse r = new DohvatiRezervacijuResponse(
+                    rs.getInt("id"),
                     rs.getString("naziv"),
+                    rs.getString("mesto"),
                     datumOd,
                     vremeOd,
                     datumDo,

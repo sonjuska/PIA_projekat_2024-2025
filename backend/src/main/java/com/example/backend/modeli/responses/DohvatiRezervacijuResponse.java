@@ -1,7 +1,9 @@
 package com.example.backend.modeli.responses;
 
 public class DohvatiRezervacijuResponse {
-    private String naziv;        
+    private int id;
+    private String naziv;
+    private String mesto;        
     private String datum_od;
     private String vreme_od;
     private String datum_do;
@@ -14,9 +16,11 @@ public class DohvatiRezervacijuResponse {
     public DohvatiRezervacijuResponse() {
     }
 
-    public DohvatiRezervacijuResponse(String naziv, String datum_od, String vreme_od, String datum_do, String vreme_do,
-                                      int broj_odraslih, int broj_dece, String broj_kartice, String opis) {
+    public DohvatiRezervacijuResponse(int id, String naziv, String mesto, String datum_od, String vreme_od, String datum_do, String vreme_do,
+                                      int broj_odraslih, int broj_dece, String broj_kartice, String opis) {     
+        this.id = id;
         this.naziv = naziv;
+        this.mesto = mesto;   
         this.datum_od = datum_od;
         this.vreme_od = vreme_od;
         this.datum_do = datum_do;
@@ -25,6 +29,22 @@ public class DohvatiRezervacijuResponse {
         this.broj_dece = broj_dece;
         this.broj_kartice = broj_kartice;
         this.opis = opis;
+    }
+
+    public String getMesto() {
+        return mesto;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMesto(String mesto) {
+        this.mesto = mesto;
     }
 
     public String getNaziv() {
