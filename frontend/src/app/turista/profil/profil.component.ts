@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { KorisnikLoginResponse } from '../../responses/KorisnikLoginResponse';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TuristaService } from '../turista.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profil',
@@ -45,18 +46,29 @@ export class ProfilComponent {
   azuriraj() {
     this.turistaServis.azurirajKorisnika(this.korisnik, this.novaSlika).subscribe(res => {
       if (res) {
-        alert('Uspešno ažurirano!');
+        Swal.fire({
+          title: 'Uspeh!',
+          text: 'Uspešno ažurirano!',
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        });
         this.turistaServis.dohvatiKorisnika(this.korisnik.korisnicko_ime).subscribe(korisnik=>{
           if(korisnik){
             this.korisnik = korisnik
             localStorage.setItem('korisnik', JSON.stringify(korisnik))
             this.ruter.navigate(['/turista/profil']);
-
           }
         })
 
       } else {
-        alert('Greška pri ažuriranju.');
+        Swal.fire({
+          title: 'Greška!',
+          text: 'Greška pri ažuriranju.',
+          icon: 'error',
+          confirmButtonText: 'Zatvori',
+          confirmButtonColor: '#72522bff'
+        });
       }
     });
   }

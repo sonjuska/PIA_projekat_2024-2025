@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DohvatiRezervacijuResponse } from '../../responses/DohvatiRezervacijuResponse';
 import { Observable } from 'rxjs';
 import { ArhivaRezervacijaResponse } from '../../responses/arhivaRezervacijaResponse';
+import { RezervacijaResponse } from '../../responses/RezervacijaResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +23,8 @@ export class RezervacijeService {
   posaljiKomentar(arhiva: ArhivaRezervacijaResponse){
     return this.http.put<number>(`${this.url}/posaljiKomentar`, arhiva);
   }
+  otkaziRezervaciju(id: number){
+    return this.http.put<RezervacijaResponse>(`${this.url}/otkaziRezervaciju/${id}`, {});
+  }
+
 }

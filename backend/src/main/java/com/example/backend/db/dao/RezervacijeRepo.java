@@ -11,6 +11,7 @@ import java.util.List;
 import com.example.backend.db.DB;
 import com.example.backend.modeli.responses.ArhivaRezervacijaResponse;
 import com.example.backend.modeli.responses.DohvatiRezervacijuResponse;
+import com.example.backend.modeli.responses.RezervacijaResponse;
 
 public class RezervacijeRepo {
 
@@ -133,6 +134,22 @@ public class RezervacijeRepo {
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    public RezervacijaResponse otkaziRezervaciju(int id){
+        String sql = "UPDATE rezervacija SET status = 'otkazana' WHERE id = ?";
+
+        try (Connection conn = DB.source().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            return new RezervacijaResponse(stmt.executeUpdate(), "Rezervacija uspešno otkazana.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new RezervacijaResponse(-1, "Greška pri otkazivanju.");
         }
     }
 

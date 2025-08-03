@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { PromenaLozinkeService } from './promena-lozinke.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-promena-lozinke',
@@ -33,7 +34,13 @@ export class PromenaLozinkeComponent {
 
     this.promenaLozinkeServis.promeniLozinku(this.korisnicko_ime, this.staraLozinka, this.novaLozinka).subscribe(res=>{
       if(res.promenjena){
-        alert(res.poruka);
+        Swal.fire({
+          title: 'Uspeh!',
+          text: res.poruka,
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        });
         if(res.daLiJeAdmin){
           this.ruter.navigate(['/admin/prijava'])
         }else{
@@ -41,7 +48,13 @@ export class PromenaLozinkeComponent {
         }
 
       }else{
-        this.porukaGreske = res.poruka;
+        Swal.fire({
+          title: 'Greška!',
+          text: res.poruka,
+          icon: 'error',
+          confirmButtonText: 'Zatvori',
+          confirmButtonColor: '#72522bff'
+        });
       }
     })
   }

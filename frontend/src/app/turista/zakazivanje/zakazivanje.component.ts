@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ZakazivanjeService } from './zakazivanje.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -96,7 +97,23 @@ export class ZakazivanjeComponent implements OnInit{
     this.zakazivanjeServis.potvrdiZakazivanje(this.vikendica.id, this.korisnik.korisnicko_ime, this.datumOd, this.vremeOd, this.datumDo,
       this.vremeDo, this.brojOdraslih, this.brojDece, this.brojKartice, this.dodatniZahtevi
     ).subscribe(res=>{
-      alert(res.poruka)
+      if(res.uspesna){
+        Swal.fire({
+          title: 'Uspeh!',
+          text: res.poruka,
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        });
+      }else{
+        Swal.fire({
+          title: 'Greška!',
+          text: res.poruka,
+          icon: 'error',
+          confirmButtonText: 'Zatvori',
+          confirmButtonColor: '#72522bff'
+        });
+      }
       this.korak = 1;
     })
   }

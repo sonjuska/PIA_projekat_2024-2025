@@ -8,6 +8,7 @@ import { TuristaService } from '../turista.service';
 import { DohvatiRezervacijuResponse } from '../../responses/DohvatiRezervacijuResponse';
 import { RezervacijeService } from './rezervacije.service';
 import { ArhivaRezervacijaResponse } from '../../responses/arhivaRezervacijaResponse';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-rezervacije',
@@ -92,21 +93,45 @@ export class RezervacijeComponent implements OnInit{
   }
 
   nemoguceOtkazivanje(r: DohvatiRezervacijuResponse): Boolean{
-  if (!r.datum_od || !r.vreme_od) return false;
+    if (!r.datum_od || !r.vreme_od) return false;
 
-  //datum i vreme u ISO format: "yyyy-MM-ddTHH:mm"
-  const datumVremeOdStr = `${r.datum_od}T${r.vreme_od}`;
-  const datumVremeOd = new Date(datumVremeOdStr);
+    //datum i vreme u ISO format: "yyyy-MM-ddTHH:mm"
+    const datumVremeOdStr = `${r.datum_od}T${r.vreme_od}`;
+    const datumVremeOd = new Date(datumVremeOdStr);
 
-  const sada = new Date();
+    const sada = new Date();
 
-  const razlikaUMilisekundama = datumVremeOd.getTime() - sada.getTime();
-  const razlikaUDanima = razlikaUMilisekundama / (1000 * 60 * 60 * 24);
+    const razlikaUMilisekundama = datumVremeOd.getTime() - sada.getTime();
+    const razlikaUDanima = razlikaUMilisekundama / (1000 * 60 * 60 * 24);
 
-  return razlikaUDanima < 1;
+    return razlikaUDanima < 1;
   }
+
   otkaziRezervaciju(id: number){
-  
+    console.log("amin")
+    this.rezervacijaServis.otkaziRezervaciju(id).subscribe(res=>{
+      if(res.uspesna){
+        Swal.fire({
+          title: 'Uspeh!',
+          text: res.poruka,
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        });
+          this.rezervacijaServis.dohvatiAktivneRezervacije(this.korisnik.korisnicko_ime).subscribe(rez=>{
+          this.aktivneRezervacije = rez;
+        })
+      }else{
+        Swal.fire({
+          title: 'Greška!',
+          text: res.poruka,
+          icon: 'error',
+          confirmButtonText: 'Zatvori',
+          confirmButtonColor: '#72522bff'
+        });
+
+      }
+    })
   }
 
 }
