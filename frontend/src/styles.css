@@ -101,8 +101,13 @@ input[type="text"] {
   border-radius: 4px;
   cursor: pointer;
 }
+.btn:disabled{
+  background-color:  #cccccc;
+  transform: none;
+  cursor: default;
+}
 .btn-back{
-  background-color: #bf963d; 
+  background-color: #bf963d;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -127,14 +132,14 @@ input[type="text"] {
   background-color: #645f56;
 }
 
-.btn:hover {
+.btn:hover:not([disabled]){
   background-color: #6d4c41;
 }
 
 .vikendica-table, .zahtevi-table, .rezervacije-table {
   width: 100%;
   border-collapse: collapse;
-  
+
 }
 
 .vikendica-table th,
@@ -145,8 +150,8 @@ input[type="text"] {
 .rezervacije-table td  {
   border: 1px solid #a1887f;
   padding: 10px;
-  text-align: center;         
-  vertical-align: middle;    
+  text-align: center;
+  vertical-align: middle;
 }
 
 
@@ -280,6 +285,30 @@ input[type="text"] {
 .btn-odbij:disabled{
   transform: none;
 
+}
+
+/*pocetne strane korisnika*/
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #3f2920;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.user-info span {
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 /*vikendica detalji*/

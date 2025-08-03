@@ -28,7 +28,7 @@ public class ZavrsiRezervacijeServis {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             int ubaceno = stmt.executeUpdate();
-            System.out.println("Prebačeno rezervacija u arhivu: " + ubaceno);
+            System.out.println("Prebaceno rezervacija u arhivu: " + ubaceno);
 
         } catch (Exception e) {
             System.err.println("Greška u prebacivanju rezervacija: " + e.getMessage());

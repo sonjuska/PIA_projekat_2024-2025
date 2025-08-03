@@ -22,7 +22,7 @@ public class RezervacijeRepo {
                 r.broj_kartice, r.opis
             FROM rezervacija r
             JOIN vikendica v ON r.vikendica_id = v.id
-            WHERE r.turista = ? AND r.status = 'odobrena' AND r.datum_do > CURRENT_DATE
+            WHERE r.turista = ? AND r.status != 'otkazana' AND r.datum_do > CURRENT_DATE
             ORDER BY r.datum_od DESC
         """;
 
@@ -151,6 +151,53 @@ public class RezervacijeRepo {
             e.printStackTrace();
             return new RezervacijaResponse(-1, "Greška pri otkazivanju.");
         }
+    }
+
+    public List<DohvatiRezervacijuResponse> dohvatiRezervacijeZaMojeVikendice(String vlasnik){
+                String sql = """
+                    SELECT r.*, v.*
+                    FROM rezervacija r
+                    JOIN vikendica v ON r.vikendica_id = v.id
+                    JOIN korisnik k ON v.vlasnik = k.korisnicko_ime
+                    WHERE k.korisnicko_ime = ?;
+                """;
+
+        List<DohvatiRezervacijuResponse> lista = new ArrayList<>();
+
+        try (Connection conn = DB.source().getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql)) {
+
+            stm.setString(1, vlasnik);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                String datumOd = rs.getTimestamp("datum_od").toLocalDateTime().toLocalDate().toString();
+                String vremeOd = rs.getTimestamp("datum_od").toLocalDateTime().toLocalTime().toString().substring(0, 5);
+
+                String datumDo = rs.getTimestamp("datum_do").toLocalDateTime().toLocalDate().toString();
+                String vremeDo = rs.getTimestamp("datum_do").toLocalDateTime().toLocalTime().toString().substring(0, 5);
+
+                DohvatiRezervacijuResponse r = new DohvatiRezervacijuResponse(
+                    rs.getInt("id"),
+                    rs.getString("naziv"),
+                    rs.getString("mesto"),
+                    datumOd,
+                    vremeOd,
+                    datumDo,
+                    vremeDo,
+                    rs.getInt("broj_odraslih"),
+                    rs.getInt("broj_dece"),
+                    rs.getString("broj_kartice"),
+                    rs.getString("opis")
+                );
+                lista.add(r);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
     }
 
 }

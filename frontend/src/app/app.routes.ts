@@ -1,3 +1,4 @@
+import { MojeVikendiceComponent } from './vlasnik/moje-vikendice/moje-vikendice.component';
 import { Routes } from '@angular/router';
 import { PocetnaComponent } from './pocetna/pocetna.component';
 import { LoginComponent } from './login/login.component';
@@ -7,14 +8,18 @@ import { ZahteviZaRegistracijuComponent } from './admin/zahtevi-za-registraciju/
 import { KorisniciComponent } from './admin/korisnici/korisnici.component';
 import { adminUlogovanGuard } from './admin/admin-ulogovan.guard';
 import { AdminPocetnaComponent } from './admin/admin-pocetna/admin-pocetna.component';
-import { ProfilComponent } from './turista/profil/profil.component';
+import { ProfilComponent as TuristaProfilComponent } from './turista/profil/profil.component';
 import { VikendiceComponent } from './turista/vikendice/vikendice.component';
-import { RezervacijeComponent } from './turista/rezervacije/rezervacije.component';
+import { RezervacijeComponent as TuristaRezervacijeComponent} from './turista/rezervacije/rezervacije.component';
 import { turistaUlogovanGuard } from './turista/turista-ulogovan.guard';
 import { TuristaPocetnaComponent } from './turista/turista-pocetna/turista-pocetna.component';
 import { PromenaLozinkeComponent } from './promena-lozinke/promena-lozinke.component';
 import { VikendicaDetaljiComponent } from './turista/vikendice/vikendica-detalji/vikendica-detalji.component';
 import { ZakazivanjeComponent } from './turista/zakazivanje/zakazivanje.component';
+import { VlasnikPocetnaComponent } from './vlasnik/vlasnik-pocetna/vlasnik-pocetna.component';
+import { vlasnikUlogovanGuard } from './vlasnik/vlasnik-ulogovan.guard';
+import { ProfilComponent as VlasnikProfilComponent} from './vlasnik/profil/profil.component';
+import { RezervacijeComponent as VlasnikRezervacijeComponent} from './vlasnik/rezervacije/rezervacije.component';
 
 export const routes: Routes = [
     {path: "", component: PocetnaComponent},
@@ -36,11 +41,21 @@ export const routes: Routes = [
         component: TuristaPocetnaComponent,
         canActivate: [turistaUlogovanGuard],
         children: [
-            { path: "profil", component: ProfilComponent },
+            { path: "profil", component: TuristaProfilComponent },
             { path: "vikendice", component: VikendiceComponent },
-            { path: "rezervacije", component: RezervacijeComponent},
+            { path: "rezervacije", component: TuristaRezervacijeComponent},
             { path: "vikendice/:id", component: VikendicaDetaljiComponent},
             { path: "zakazivanje/:id", component: ZakazivanjeComponent}
+        ]
+    },
+        {
+        path: "vlasnik",
+        component: VlasnikPocetnaComponent,
+        canActivate: [vlasnikUlogovanGuard],
+        children: [
+            { path: "profil", component: VlasnikProfilComponent },
+            { path: "rezervacije", component: VlasnikRezervacijeComponent},
+            { path: "moje-vikendice", component: MojeVikendiceComponent}
         ]
     },
 

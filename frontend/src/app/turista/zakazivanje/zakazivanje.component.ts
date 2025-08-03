@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Vikendica } from '../../models/vikendica';
 import { VikendicaService } from '../vikendice/vikendica.service';
 import { KorisnikLoginResponse } from '../../responses/KorisnikLoginResponse';
@@ -59,6 +59,7 @@ export class ZakazivanjeComponent implements OnInit{
   turistaServis = inject(TuristaService)
   zakazivanjeServis = inject(ZakazivanjeService)
   ruta = inject(ActivatedRoute)
+  ruter = inject(Router)
 
   korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
   vikendica: Vikendica = new Vikendica();
@@ -115,6 +116,7 @@ export class ZakazivanjeComponent implements OnInit{
         });
       }
       this.korak = 1;
+      this.ruter.navigate(['/turista/rezervacije'])
     })
   }
 

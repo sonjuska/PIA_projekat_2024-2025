@@ -1,0 +1,44 @@
+<div class="register-container">
+  <form class="register-box" (ngSubmit)="azuriraj()" #profilForm="ngForm">
+    <h2>Moj profil</h2>
+    <hr><br>
+
+    <div class="form-group">
+      <label for="ime">Ime:</label>
+      <input type="text" id="ime" name="ime" [(ngModel)]="korisnik.ime" required />
+    </div>
+
+    <div class="form-group">
+      <label for="prezime">Prezime:</label>
+      <input type="text" id="prezime" name="prezime" [(ngModel)]="korisnik.prezime" required />
+    </div>
+
+    <div class="form-group">
+      <label for="adresa">Adresa:</label>
+      <input type="text" id="adresa" name="adresa" [(ngModel)]="korisnik.adresa" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="korisnik.email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="telefon">Telefon:</label>
+      <input type="text" id="telefon" name="telefon" [(ngModel)]="korisnik.telefon" />
+    </div>
+
+    <div class="form-group">
+      <label for="broj_kartice">Broj kartice:</label>
+      <input type="text" id="broj_kartice" name="broj_kartice" [(ngModel)]="korisnik.broj_kartice" required />
+    </div>
+
+    <div class="form-group">
+      <label for="slika">Profilna slika:</label>
+      <input type="file" id="slika" name="slika" (change)="izaberiSliku($event)" />
+      <img *ngIf="korisnik.profilna_slika_path" [src]="'http://localhost:8080/' + korisnik.profilna_slika_path" alt="profilna" width="80" style="margin-top: 10px; border-radius: 4px;" />
+    </div><br>
+
+    <button type="submit" class="btn" [disabled]="!profilForm.form.valid">Ažuriraj podatke</button>
+  </form>
+</div>

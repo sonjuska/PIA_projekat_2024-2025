@@ -6,7 +6,7 @@ INSERT INTO rezervacija (
 (1, 'promi', '2024-08-01', '2024-08-03', 2, 1, '5438465748394850', 'Letnji vikend', 'odobrena', '', '2024-07-29'),
 (1, 'promi', '2024-08-10', '2024-08-12', 1, 0, '5438465748394850', 'Samostalno putovanje', 'odobrena', '', '2024-07-29'),
 (2, 'promi', '2024-08-15', '2024-08-17', 3, 2, '5438465748394850', 'Porodični odmor', 'odobrena', '', '2024-07-29'),
-(3, 'promi', '2025-09-01', '2025-09-05', 2, 0, '5438465748394850', 'Radna nedelja', 'odobrena', '', '2025-07-29'),
+(3, 'promi', '2025-09-01', '2025-09-05', 2, 0, '5438465748394850', 'Radna nedelja', 'na_cekanju', '', '2025-07-29'),
 (4, 'promi', '2025-09-10', '2025-09-12', 2, 0, '5438465748394850', 'Brzi vikend beg', 'odobrena', '', '2025-07-29');
 
 INSERT INTO rezervacija (
@@ -18,7 +18,7 @@ INSERT INTO rezervacija (
 (2, 'nevena', '2024-08-20', '2024-08-22', 1, 1, '1234567890123456', 'Porodični vikend', 'odobrena', '', '2024-07-29'),
 (3, 'promi', '2024-09-01', '2024-09-03', 2, 0, '9876543210987654', 'Odmor u Beogradu', 'odobrena', '', '2024-07-29'),
 (4, 'promi', '2024-09-10', '2024-09-13', 2, 1, '9876543210987654', 'Planinski vikend', 'odobrena', '', '2024-07-29'),
-(5, 'nevena', '2025-10-15', '2025-10-18', 2, 0, '4444333322221111', 'Opuštanje u prirodi', 'odobrena', '', '2025-07-29'),
+(5, 'nevena', '2025-10-15', '2025-10-18', 2, 0, '4444333322221111', 'Opuštanje u prirodi', 'na_cekanju', '', '2025-07-29'),
 (6, 'nevena', '2025-10-05', '2025-10-07', 1, 0, '4444333322221111', 'Miran vikend', 'odobrena', '', '2025-07-29');
 
 INSERT INTO arhiva (rezervacija_id, ocena, tekst, datum) VALUES

@@ -200,8 +200,13 @@ public class VikendicaRepo {
         
         String sql = """
             SELECT k.ocena, k.tekst, k.datum
-            FROM rezervacija r JOIN arhiva k on (r.id = k.rezervacija_id)
+            FROM rezervacija r
+            JOIN arhiva k ON (r.id = k.rezervacija_id)
             WHERE r.vikendica_id = ?
+            AND k.tekst IS NOT NULL
+            AND k.tekst != ''
+            AND k.ocena IS NOT NULL
+            AND k.ocena > 0
         """;
 
         try (Connection conn = DB.source().getConnection();

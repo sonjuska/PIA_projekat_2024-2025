@@ -1,0 +1,24 @@
+<div class="lista-rezervacija">
+  <h2>Lista rezervacija</h2>
+  <table class="rezervacije-table" *ngIf="rezervacije.length > 0; else nemaAktivnih">
+    <thead>
+      <tr>
+        <th>Datum dolaska</th>
+        <th>Datum odlaska</th>
+        <th>Naziv vikendice</th>
+        <th>Mesto vikendice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of rezervacije">
+        <td>{{ r.datum_od  | date:'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
+        <td>{{ r.datum_do  | date:'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
+        <td>{{ r.naziv }}</td>
+        <td>{{ r.mesto }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #nemaAktivnih>
+    <p style="margin-top: 10px;">Nemate aktivnih rezervacija.</p>
+  </ng-template>
+</div>
