@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('/pozadina.jpg') no-repeat center center fixed;
+  background: url('/pozadina.png') no-repeat center center fixed;
   background-size: cover;
   color: #4e342e; /* tamno braon tekst */
   margin: 20px;
@@ -139,7 +139,8 @@ input[type="text"] {
 .vikendica-table, .zahtevi-table, .rezervacije-table {
   width: 100%;
   border-collapse: collapse;
-
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 12px;
 }
 
 .vikendica-table th,
@@ -488,6 +489,115 @@ select:focus {
   border-color: #007bff;
   outline: none;
 }
+
+/*kalendar*/
+.kalendar-rezervacija {
+  background-color: rgba(255, 248, 240, 0.95);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 700px; /* smanjeno sa 900px */
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #a1887f;
+}
+.fc{
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.fc-col-header-cell {
+  background-color: #d1c7bd;
+  color: #4e342e;
+  font-weight: bold;
+  padding: 6px 0;
+}
+.fc-toolbar-title {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #4e342e;
+  text-transform: capitalize;
+}
+
+/* Ćelije dana u kalendaru */
+.fc-daygrid-day {
+  background-color: #fffaf0;
+  border: 1px solid #a1887f !important;
+  width: 80px !important;
+}
+
+/* Redovi kalendara */
+.fc .fc-daygrid-day-frame {
+  min-height: 50px; /* smanjena visina */
+  padding: 2px;
+}
+
+/* Naslov meseca */
+.fc-toolbar-title {
+
+  padding: 10px 15px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Nazivi dana u zaglavlju */
+.fc .fc-col-header-cell-cushion {
+  color: #4e342e;
+  font-weight: 600;
+}
+
+/* Brojevi dana */
+.fc .fc-daygrid-day-number {
+  font-size: 12px;
+  padding-right: 4px;
+}
+
+.fc-event {
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 3px;
+  border: none;
+  border-radius: 4px;
+  opacity: 0.95;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.fc-event:hover{
+  cursor: pointer;
+}
+
+.fc-event-title {
+  white-space: normal !important;
+}
+::ng-deep .fc-button {
+  background-color: #a1887f !important;;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
+::ng-deep .fc .fc-today-button {
+  background-color: #6d4c41 !important;
+}
+
+::ng-deep .fc .fc-prev-button,
+::ng-deep .fc .fc-next-button {
+  background-color: #a1887f !important;
+}
+
+.fc-button:hover {
+  background-color: #8d6e63;
+}
+
+
+
+
+
+
 
 
 

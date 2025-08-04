@@ -163,7 +163,7 @@ public class RezervacijeRepo {
                     FROM rezervacija r
                     JOIN vikendica v ON r.vikendica_id = v.id
                     JOIN korisnik k ON v.vlasnik = k.korisnicko_ime
-                    WHERE k.korisnicko_ime = ? AND r.status!= 'otkazana'
+                    WHERE k.korisnicko_ime = ? AND r.status!= 'otkazana' AND r.status!= 'odbijena'
                     ORDER BY r.datum_rezervacije DESC;
                 """;
 
@@ -215,11 +215,11 @@ public class RezervacijeRepo {
 
             stmt.setInt(1, id);
 
-            return new RezervacijaResponse(stmt.executeUpdate(), "Rezervacija uspešno odobrena.");
+            return new RezervacijaResponse(stmt.executeUpdate(), "Rezervacija uspešno potvrđena.");
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new RezervacijaResponse(0, "Greška pri odobravanju.");
+            return new RezervacijaResponse(0, "Greška pri potvrdi rezervacije.");
         }
     }
     public RezervacijaResponse odbijRezervaciju(OdbijRezervacijuRequest rez){
