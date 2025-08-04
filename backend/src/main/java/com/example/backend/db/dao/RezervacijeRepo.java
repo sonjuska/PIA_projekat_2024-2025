@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.backend.db.DB;
+import com.example.backend.modeli.requests.OdbijRezervacijuRequest;
 import com.example.backend.modeli.responses.ArhivaRezervacijaResponse;
 import com.example.backend.modeli.responses.DohvatiRezervacijuResponse;
 import com.example.backend.modeli.responses.RezervacijaResponse;
@@ -19,7 +20,7 @@ public class RezervacijeRepo {
 
         String sql = """
             SELECT r.id, v.naziv, v.mesto, r.datum_od, r.datum_do, r.broj_odraslih, r.broj_dece,
-                r.broj_kartice, r.opis
+                r.broj_kartice, r.opis, r.status, r.komentar_odbijanja
             FROM rezervacija r
             JOIN vikendica v ON r.vikendica_id = v.id
             WHERE r.turista = ? AND r.status != 'otkazana' AND r.datum_do > CURRENT_DATE
@@ -52,7 +53,9 @@ public class RezervacijeRepo {
                     rs.getInt("broj_odraslih"),
                     rs.getInt("broj_dece"),
                     rs.getString("broj_kartice"),
-                    rs.getString("opis")
+                    rs.getString("opis"),
+                    rs.getString("status"),
+                    rs.getString("komentar_odbijanja")
                 );
                 lista.add(r);
             }
@@ -149,17 +152,19 @@ public class RezervacijeRepo {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new RezervacijaResponse(-1, "Greška pri otkazivanju.");
+            return new RezervacijaResponse(0, "Greška pri otkazivanju.");
         }
     }
 
+    //vlasnik
     public List<DohvatiRezervacijuResponse> dohvatiRezervacijeZaMojeVikendice(String vlasnik){
                 String sql = """
                     SELECT r.*, v.*
                     FROM rezervacija r
                     JOIN vikendica v ON r.vikendica_id = v.id
                     JOIN korisnik k ON v.vlasnik = k.korisnicko_ime
-                    WHERE k.korisnicko_ime = ?;
+                    WHERE k.korisnicko_ime = ? AND r.status!= 'otkazana'
+                    ORDER BY r.datum_rezervacije DESC;
                 """;
 
         List<DohvatiRezervacijuResponse> lista = new ArrayList<>();
@@ -188,7 +193,9 @@ public class RezervacijeRepo {
                     rs.getInt("broj_odraslih"),
                     rs.getInt("broj_dece"),
                     rs.getString("broj_kartice"),
-                    rs.getString("opis")
+                    rs.getString("opis"),
+                    rs.getString("status"),
+                    rs.getString("komentar_odbijanja")
                 );
                 lista.add(r);
             }
@@ -198,6 +205,38 @@ public class RezervacijeRepo {
         }
 
         return lista;
+    }
+
+    public RezervacijaResponse potvrdiRezervaciju(int id){
+        String sql = "UPDATE rezervacija SET status = 'odobrena' WHERE id = ?";
+
+        try (Connection conn = DB.source().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            return new RezervacijaResponse(stmt.executeUpdate(), "Rezervacija uspešno odobrena.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new RezervacijaResponse(0, "Greška pri odobravanju.");
+        }
+    }
+    public RezervacijaResponse odbijRezervaciju(OdbijRezervacijuRequest rez){
+        String sql = "UPDATE rezervacija SET status = 'odbijena', komentar_odbijanja = ? WHERE id = ?";
+
+        try (Connection conn = DB.source().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, rez.getKomentar_odbijanja());
+            stmt.setInt(2, rez.getId());
+
+            return new RezervacijaResponse(stmt.executeUpdate(), "Rezervacija uspešno odbijena.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new RezervacijaResponse(0, "Greška pri odbijanju.");
+        }
     }
 
 }

@@ -12,12 +12,14 @@ public class DohvatiRezervacijuResponse {
     private int broj_dece;
     private String broj_kartice;
     private String opis;
+    private String status;
+    private String komentar_odbijanja;
 
     public DohvatiRezervacijuResponse() {
     }
 
     public DohvatiRezervacijuResponse(int id, String naziv, String mesto, String datum_od, String vreme_od, String datum_do, String vreme_do,
-                                      int broj_odraslih, int broj_dece, String broj_kartice, String opis) {     
+                                      int broj_odraslih, int broj_dece, String broj_kartice, String opis, String status, String komentar_odbijanja) {     
         this.id = id;
         this.naziv = naziv;
         this.mesto = mesto;   
@@ -29,10 +31,28 @@ public class DohvatiRezervacijuResponse {
         this.broj_dece = broj_dece;
         this.broj_kartice = broj_kartice;
         this.opis = opis;
+        this.status = status;
+        this.komentar_odbijanja = komentar_odbijanja;
+    }
+
+    public String getKomentar_odbijanja() {
+        return komentar_odbijanja;
+    }
+
+    public void setKomentar_odbijanja(String komentar_odbijanja) {
+        this.komentar_odbijanja = komentar_odbijanja;
     }
 
     public String getMesto() {
         return mesto;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getId() {
