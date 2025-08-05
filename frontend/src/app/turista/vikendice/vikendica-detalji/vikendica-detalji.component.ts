@@ -26,6 +26,7 @@ export class VikendicaDetaljiComponent implements OnInit{
 
           this.vikendicaServis.getSlikeVikendice(this.vikendica.id).subscribe(slike => {
             this.slike = slike;
+            console.log(this.slike)
           });
           this.vikendicaServis.getCenovnikVikendice(this.vikendica.id).subscribe(cenovnik=>{
             this.cenovnik = cenovnik;

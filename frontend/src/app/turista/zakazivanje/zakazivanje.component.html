@@ -1,7 +1,7 @@
 <div class="zakazivanje-wrapper">
   <form #formaZakazivanja="ngForm" (ngSubmit)="potvrdiZakazivanje()" class="step-form">
 
-    <h2>Zakazivanje vikendice</h2><hr>
+    <h2>Zakazivanje: {{vikendica.naziv}}</h2><hr>
 
     <!--korak 1-->
     <div *ngIf="korak === 1" class="step">

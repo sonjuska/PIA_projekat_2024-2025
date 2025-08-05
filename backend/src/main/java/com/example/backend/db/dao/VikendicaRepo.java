@@ -1,5 +1,9 @@
 package com.example.backend.db.dao;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +11,7 @@ import java.sql.SQLException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +20,9 @@ import com.example.backend.db.DB;
 import com.example.backend.modeli.Cenovnik;
 import com.example.backend.modeli.Komentar;
 import com.example.backend.modeli.Vikendica;
+import com.example.backend.modeli.requests.AzurirajVikendicuRequest;
+import com.example.backend.modeli.requests.NovaVikendicaRequest;
+import com.example.backend.modeli.responses.VikendicaSimpleResponse;
 
 public class VikendicaRepo {
 
@@ -230,5 +238,279 @@ public class VikendicaRepo {
 
         return komentari;
     }
+
+    //vlasnik
+    public List<Vikendica> getMojeVikendice(String vlasnik){
+        List<Vikendica> vikendice = new ArrayList<>();
+        Map<Integer, Double> ocene = ucitajProsecneOcene();
+
+        String sql = "SELECT * FROM vikendica WHERE vlasnik = ?";
+
+        try (Connection conn = DB.source().getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql);) {
+                stm.setString(1, vlasnik);
+                ResultSet rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    Vikendica v = mapirajVikendicu(rs);
+                    v.setProsecna_ocena(ocene.getOrDefault(v.getId(), 0.0));
+                    vikendice.add(v);
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vikendice;
+    
+    }
+
+    public VikendicaSimpleResponse obrisiVikendicu(int id) {
+        String obrisiRezervacijeSQL = "DELETE FROM rezervacija WHERE vikendica_id = ?";
+        String obrisiVikendicuSQL = "DELETE FROM vikendica WHERE id = ?";
+        String obrisiCenovnik = "DELETE FROM cenovnik WHERE vikendica_id = ?";
+
+        try (Connection conn = DB.source().getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (
+                PreparedStatement stmt1 = conn.prepareStatement(obrisiRezervacijeSQL);
+                PreparedStatement stmt2 = conn.prepareStatement(obrisiVikendicuSQL);
+                PreparedStatement stmt3 = conn.prepareStatement(obrisiCenovnik);
+            ) {
+                stmt1.setInt(1, id);
+                stmt1.executeUpdate();
+
+                stmt3.setInt(1, id);
+                stmt3.executeUpdate();
+
+                stmt2.setInt(1, id);
+                int rezultat = stmt2.executeUpdate();
+
+                conn.commit();
+
+                if(rezultat>0) {
+                    return new VikendicaSimpleResponse(true, "Vikendica, povezane rezervacije i cenovnik su uspešno obrisane.");
+                }else{
+                    return new VikendicaSimpleResponse(false, "Vikendica nije pronađena.");
+                }
+
+            } catch (SQLException ex) {
+                conn.rollback();
+                ex.printStackTrace();
+                return new VikendicaSimpleResponse(false, "Greška pri brisanju: " + ex.getMessage());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new VikendicaSimpleResponse(false, "Greška pri povezivanju sa bazom: " + e.getMessage());
+        }
+    }
+
+    public VikendicaSimpleResponse azurirajVikendicu(AzurirajVikendicuRequest request) {
+        String sql = """
+            UPDATE vikendica
+            SET naziv = ?, mesto = ?, usluge = ?, telefon = ?, lat = ?, lon = ?, blokirana_do = ?
+            WHERE id = ?
+        """;
+
+        String sqlDodajSliku = "INSERT INTO slika (vikendica_id, putanja) VALUES (?, ?)";
+        String sqlObrisiSliku = "DELETE FROM slika WHERE vikendica_id = ? AND putanja = ?";
+
+        try (Connection conn = DB.source().getConnection()) {
+            conn.setAutoCommit(false);
+
+            // 1️⃣ Ažuriranje osnovnih podataka
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, request.getVikendica().getNaziv());
+                stmt.setString(2, request.getVikendica().getMesto());
+                stmt.setString(3, request.getVikendica().getUsluge());
+                stmt.setString(4, request.getVikendica().getTelefon());
+                stmt.setDouble(5, request.getVikendica().getLat());
+                stmt.setDouble(6, request.getVikendica().getLon());
+
+                if (request.getVikendica().getBlokirana_do() != null) {
+                    stmt.setTimestamp(7, java.sql.Timestamp.valueOf(request.getVikendica().getBlokirana_do()));
+                } else {
+                    stmt.setNull(7, java.sql.Types.TIMESTAMP);
+                }
+
+                stmt.setInt(8, request.getVikendica().getId());
+
+                int rezultat = stmt.executeUpdate();
+                if (rezultat == 0) {
+                    conn.rollback();
+                    return new VikendicaSimpleResponse(false, "Vikendica nije pronađena.");
+                }
+            }
+
+            int vikendicaId = request.getVikendica().getId();
+
+            // Putanja do foldera za slike
+            Path folderPath = Paths.get(System.getProperty("user.dir"), "backend", "src", "main", "resources",
+                    "static", "vikendice", String.valueOf(vikendicaId));
+            if (!Files.exists(folderPath)) {
+                Files.createDirectories(folderPath);
+            }
+
+            // 2️⃣ Brisanje starih slika
+            if (request.getObrisaneSlike() != null) {
+                try (PreparedStatement psBrisanje = conn.prepareStatement(sqlObrisiSliku)) {
+                    for (String putanja : request.getObrisaneSlike()) {
+                        // Obriši fajl iz sistema
+                        Path filePath = Paths.get(System.getProperty("user.dir"), "backend", "src", "main", "resources",
+                                "static", putanja);
+                        Files.deleteIfExists(filePath);
+
+                        // Obriši iz baze
+                        psBrisanje.setInt(1, vikendicaId);
+                        psBrisanje.setString(2, putanja);
+                        psBrisanje.addBatch();
+                    }
+                    psBrisanje.executeBatch();
+                }
+            }
+
+            // 3️⃣ Dodavanje novih slika
+            if (request.getNoveSlike() != null) {
+                try (PreparedStatement psDodaj = conn.prepareStatement(sqlDodajSliku)) {
+                    for (String base64 : request.getNoveSlike()) {
+                        // generiši ime fajla
+                        String fileName = request.getVikendica().getVlasnik() + "_" + System.currentTimeMillis() + ".png";
+                        Path filePath = folderPath.resolve(fileName);
+
+                        // dekodiraj i snimi fajl
+                        byte[] imageBytes = Base64.getDecoder().decode(base64.split(",")[1]);
+                        Files.write(filePath, imageBytes);
+
+                        // putanja koja ide u bazu
+                        String relativePath = "vikendice/" + vikendicaId + "/" + fileName;
+                        psDodaj.setInt(1, vikendicaId);
+                        psDodaj.setString(2, relativePath);
+                        psDodaj.addBatch();
+                    }
+                    psDodaj.executeBatch();
+                }
+            }
+
+            conn.commit();
+            return new VikendicaSimpleResponse(true, "Vikendica je uspešno ažurirana.");
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            return new VikendicaSimpleResponse(false, "Greška pri ažuriranju: " + e.getMessage());
+        }
+    }
+
+
+    public VikendicaSimpleResponse dodajVikendicuSaCenovnikom(NovaVikendicaRequest request) {
+        String sqlVikendica = """
+            INSERT INTO vikendica (vlasnik, naziv, mesto, usluge, telefon, lat, lon, blokirana_do)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+
+        String sqlCenovnik = """
+            INSERT INTO cenovnik (vikendica_id, sezona, cena)
+            VALUES (?, ?, ?)
+        """;
+        String sqlSlika = """
+            INSERT INTO slika (vikendica_id, putanja)
+            VALUES (?, ?)
+        """;
+
+        try (Connection conn = DB.source().getConnection()) {
+            conn.setAutoCommit(false);
+
+            int vikendicaId;
+
+            // 1️⃣ Dodavanje vikendice
+            try (PreparedStatement ps = conn.prepareStatement(sqlVikendica, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, request.getVikendica().getVlasnik());
+                ps.setString(2, request.getVikendica().getNaziv());
+                ps.setString(3, request.getVikendica().getMesto());
+                ps.setString(4, request.getVikendica().getUsluge());
+                ps.setString(5, request.getVikendica().getTelefon());
+                ps.setDouble(6, request.getVikendica().getLat());
+                ps.setDouble(7, request.getVikendica().getLon());
+
+                if (request.getVikendica().getBlokirana_do() != null) {
+                    ps.setTimestamp(8, java.sql.Timestamp.valueOf(request.getVikendica().getBlokirana_do()));
+                } else {
+                    ps.setNull(8, java.sql.Types.TIMESTAMP);
+                }
+
+                ps.executeUpdate();
+
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        vikendicaId = rs.getInt(1);
+                    } else {
+                        conn.rollback();
+                        return new VikendicaSimpleResponse(false, "Greška: ID vikendice nije generisan.");
+                    }
+                }
+            }
+
+            try (PreparedStatement psCen = conn.prepareStatement(sqlCenovnik)) {
+                for (Cenovnik c : request.getCenovnik()) {
+                    psCen.setInt(1, vikendicaId);
+                    psCen.setString(2, c.getSezona());
+                    psCen.setDouble(3, c.getCena());
+                    psCen.addBatch();
+                }
+                psCen.executeBatch();
+            }
+
+        // 3️⃣ Čuvanje slika
+        if (request.getSlike() != null && !request.getSlike().isEmpty()) {
+            // folder: static/vikendice/{id_vikendice}
+            Path folderPath = Paths.get(System.getProperty("user.dir"), "backend", "src", "main", "resources",
+                    "static", "vikendice", String.valueOf(vikendicaId));
+
+            if (!Files.exists(folderPath)) {
+                try {
+                    Files.createDirectories(folderPath);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            try (PreparedStatement psSlika = conn.prepareStatement(sqlSlika)) {
+                for (String base64 : request.getSlike()) {
+                    // napravi ime fajla vlasnik_timestamp
+                    String fileName = request.getVikendica().getVlasnik() + "_" + System.currentTimeMillis() + ".png";
+                    Path filePath = folderPath.resolve(fileName);
+
+                    // dekodiraj base64 i snimi fajl
+                    byte[] imageBytes = Base64.getDecoder().decode(base64.split(",")[1]);
+
+                    try {
+                        Files.write(filePath, imageBytes);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    //upiši putanju u bazu (relativna od /static)
+                    String relativePath = "vikendice/" + vikendicaId + "/" + fileName;
+                    psSlika.setInt(1, vikendicaId);
+                    psSlika.setString(2, relativePath);
+                    psSlika.addBatch();
+                }
+                psSlika.executeBatch();
+            }
+        }
+
+        conn.commit();
+        return new VikendicaSimpleResponse(true, "Vikendica, cenovnik i slike uspešno dodati.");
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new VikendicaSimpleResponse(false, "Greška pri dodavanju: " + e.getMessage());
+        }
+    }
+
+
+
 
 }

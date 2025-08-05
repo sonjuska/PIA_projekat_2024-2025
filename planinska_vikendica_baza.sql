@@ -89,7 +89,6 @@ CREATE TABLE arhiva (
     ocena INT CHECK (ocena BETWEEN 1 AND 5),
     tekst TEXT,
     datum DATETIME DEFAULT NOW(),
-    FOREIGN KEY (rezervacija_id) REFERENCES rezervacija(id)
 );
 
 -- Tabela za logove prijavljivanja

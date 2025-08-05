@@ -20,6 +20,7 @@ import { VlasnikPocetnaComponent } from './vlasnik/vlasnik-pocetna/vlasnik-pocet
 import { vlasnikUlogovanGuard } from './vlasnik/vlasnik-ulogovan.guard';
 import { ProfilComponent as VlasnikProfilComponent} from './vlasnik/profil/profil.component';
 import { RezervacijeComponent as VlasnikRezervacijeComponent} from './vlasnik/rezervacije/rezervacije.component';
+import { UrediMojuVikendicuComponent } from './vlasnik/moje-vikendice/uredi-moju-vikendicu/uredi-moju-vikendicu.component';
 
 export const routes: Routes = [
     {path: "", component: PocetnaComponent},
@@ -55,7 +56,8 @@ export const routes: Routes = [
         children: [
             { path: "profil", component: VlasnikProfilComponent },
             { path: "rezervacije", component: VlasnikRezervacijeComponent},
-            { path: "moje-vikendice", component: MojeVikendiceComponent}
+            { path: "moje-vikendice", component: MojeVikendiceComponent},
+            { path: "moje-vikendice/:id", component: UrediMojuVikendicuComponent}
         ]
     },
 

@@ -13,8 +13,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarOptions } from '@fullcalendar/core';
-import { registerLocaleData } from '@angular/common';
-import srLatn from '@angular/common/locales/sr-Latn';
 import { srLatnLocale } from '../../latinicaZaKalendar';
 
 
@@ -187,7 +185,7 @@ klikNaDogadjaj(info: any) {
   const id = info.event.extendedProps.id;
   const status = info.event.extendedProps.status;
 
-  if (status !== 'na_cekanju') {
+  if(status !== 'na_cekanju') {
     Swal.fire({
       title: 'Rezervacija već obrađena',
       text: 'Ova rezervacija je već potvrđena.',
@@ -201,7 +199,7 @@ klikNaDogadjaj(info: any) {
   Swal.fire({
     title: 'Rezervacija na čekanju',
     html: `
-      <textarea id="komentarOdbijanja" class="swal2-textarea" placeholder="Unesite komentar u slučaju odbijanja"></textarea>
+      <textarea id="komentarOdbijanja" class="swal2-textarea" placeholder="Unesite komentar u slučaju odbijanja:" style="width: 80%;"></textarea>
     `,
     showDenyButton: true,
     confirmButtonText: 'Potvrdi rezervaciju',
@@ -209,8 +207,8 @@ klikNaDogadjaj(info: any) {
     confirmButtonColor: '#4CAF50',
     denyButtonColor: '#f44336',
   }).then(result => {
+    
     const komentar = (document.getElementById('komentarOdbijanja') as HTMLTextAreaElement)?.value || '';
-
     if (result.isConfirmed) {
       this.odobri(id);
     } else if (result.isDenied) {
@@ -223,53 +221,11 @@ klikNaDogadjaj(info: any) {
         });
         return;
       }
-      this.odbijPrekoDijaloga(id, komentar);
+      this.odbij(id, komentar);
     }
   });
 
   }
-
-  odbijPrekoDijaloga(id: number, komentar: string) {
-  this.rezervacijaServis.odbijRezervaciju(id, komentar).subscribe(res => {
-    if (res.uspesna) {
-      Swal.fire({
-        title: 'Uspeh!',
-        text: res.poruka,
-        icon: 'success',
-        confirmButtonText: 'U redu',
-        confirmButtonColor: '#72522bff'
-      });
-
-      this.rezervacijaServis.dohvatiMojeRezervacije(this.korisnik.korisnicko_ime).subscribe(rez => {
-        this.rezervacije = rez;
-        this.rezervacijeNaCekanju = this.rezervacije.filter(r => r.status === 'na_cekanju');
-        this.calendarOptions.events = this.rezervacije.map(r => ({
-          title: r.naziv,
-          start: r.datum_od + 'T' + r.vreme_od,
-          end: r.datum_do + 'T' + r.vreme_do,
-          color: r.status === 'na_cekanju' ? '#fff176' : '#81c784',
-          textColor: '#4e342e',
-          extendedProps: {
-            id: r.id,
-            status: r.status,
-            mesto: r.mesto,
-            vreme_od: r.vreme_od,
-            vreme_do: r.vreme_do
-          }
-        }));
-      });
-
-    } else {
-      Swal.fire({
-        title: 'Greška!',
-        text: res.poruka,
-        icon: 'error',
-        confirmButtonText: 'Zatvori',
-        confirmButtonColor: '#72522bff'
-      });
-    }
-  });
-}
 
 
 }

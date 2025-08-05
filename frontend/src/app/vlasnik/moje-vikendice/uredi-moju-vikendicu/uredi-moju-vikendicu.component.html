@@ -1,0 +1,94 @@
+<div class="register-container">
+  <form class="register-box" (ngSubmit)="azuriraj()" #vikendicaForm="ngForm">
+    <h2>Izmena podataka o vikendici</h2>
+    <hr><br>
+
+    <div class="form-group">
+      <label for="naziv">Naziv:</label>
+      <input type="text" id="naziv" name="naziv" [(ngModel)]="vikendica.naziv" required />
+    </div>
+
+    <div class="form-group">
+      <label for="mesto">Mesto:</label>
+      <input type="text" id="mesto" name="mesto" [(ngModel)]="vikendica.mesto" required />
+    </div>
+
+    <div class="form-group">
+    <label for="uslugaInput">Usluge:</label>
+    
+    <div class="usluga-input-wrapper">
+        <input
+        type="text"
+        id="uslugaInput"
+        [(ngModel)]="novaUsluga"
+        name="novaUsluga"
+        (keydown.enter)="dodajUslugu(); $event.preventDefault();"
+        placeholder="Unesite uslugu i pritisnite Enter"
+        />
+        <button type="button" class="btn" (click)="dodajUslugu()">Dodaj</button>
+    </div>
+
+    <!--ovde se vide sve usluge koje su do sad unete -->
+    <div class="usluge-list">
+        <span
+        class="usluga-tag"
+        *ngFor="let usluga of usluge; let i = index"
+        >
+        {{ usluga }}
+        <button type="button" (click)="ukloniUslugu(i)">×</button>
+        </span>
+    </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefon">Telefon:</label>
+      <input type="text" id="telefon" name="telefon" [(ngModel)]="vikendica.telefon"   pattern="^(\+?[0-9]{0,})$" (keypress)="dozvoliSamoBrojeve($event)"/>
+    </div>
+
+    <div class="form-group">
+      <label for="lat">Geografska širina (lat):</label>
+      <input type="number" step="any" id="lat" name="lat" [(ngModel)]="vikendica.lat" required />
+    </div>
+
+    <div class="form-group">
+      <label for="lon">Geografska dužina (lon):</label>
+      <input type="number" step="any" id="lon" name="lon" [(ngModel)]="vikendica.lon" required />
+    </div>
+
+    <div class="form-group">
+      <label for="blokirana_do">Blokirana do:</label>
+      <input type="datetime-local" id="blokirana_do" name="blokirana_do" [(ngModel)]="vikendica.blokirana_do" />
+    </div><br>
+
+    <div class="form-group">
+      <label for="slike">Slike vikendice:</label>
+      <input 
+        type="file" 
+        id="slike" 
+        name="slike" 
+        (change)="onSlikeSelected($event)" 
+        multiple
+      />
+    </div>
+
+    <!--slike sa dugmetom za brisanje -->
+    <div class="slike-preview">
+      <div class="slika-item" *ngFor="let slika of slikePreview; let i = index">
+        <img 
+          [src]="slika" 
+          alt="Slika vikendice" 
+          width="100" 
+          style="margin: 5px; border-radius: 4px;"
+        />
+        <button 
+          type="button" 
+          class="btn-odbij" 
+          (click)="ukloniSliku(i)">
+          ❌
+        </button>
+      </div>
+    </div>
+
+    <button type="submit" class="btn" [disabled]="!vikendicaForm.form.valid">Sačuvaj izmene</button>
+  </form>
+</div>

@@ -212,7 +212,7 @@ input[type="text"] {
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 40px); /* da uzme celu visinu */
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
 }
 .register-box {
@@ -237,7 +237,10 @@ input[type="text"] {
 .register-box input[type="password"],
 .register-box input[type="email"],
 .register-box select,
-.register-box input[type="file"] {
+.register-box input[type="file"],
+.register-box input[type="datetime-local"],
+.register-box input[type="number"]
+{
   padding: 8px;
   border: 1px solid #8d6e63;
   border-radius: 4px;

@@ -6,7 +6,7 @@
         <div class="slike-scroll" *ngIf="slike.length>0; else nemaSlika">
             <img
             *ngFor="let slika of slike"
-            [src]="'http://localhost:8080/vikendice/' + vikendica.id + '/' + slika"
+            [src]="'http://localhost:8080/'+ slika"
             alt="Slika vikendice"
             (click)="otvoriModal(slika)"
             />
@@ -18,7 +18,7 @@
 
         <!-- Modal -->
         <div class="modal" *ngIf="prikazanaSlika" (click)="zatvoriModal()">
-            <img [src]="'http://localhost:8080/vikendice/' + vikendica.id + '/' + prikazanaSlika" />
+            <img [src]="'http://localhost:8080/' + prikazanaSlika" />
             <span class="strelica desno" (click)="prikaziSledecuSliku()">&#10095;</span>
         </div>
 

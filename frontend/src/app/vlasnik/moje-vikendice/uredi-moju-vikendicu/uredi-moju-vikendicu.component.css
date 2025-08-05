@@ -37,23 +37,3 @@
 .usluga-tag button:hover {
   color: #d32f2f;
 }
-button.X {
-  background-color: transparent;
-  border: none;
-  color: #d9534f; /* crvena boja za akcije brisanja */
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 0;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-button.X:hover {
-  color: #c9302c; /* tamnija crvena na hover */
-  transform: scale(1.1);
-}
-
-button.X:focus {
-  outline: none;
-}
-
