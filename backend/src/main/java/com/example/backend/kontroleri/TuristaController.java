@@ -30,8 +30,9 @@ public class TuristaController {
         @RequestParam String telefon,
         @RequestParam String email,
         @RequestParam String broj_kartice,
+        @RequestParam boolean slikaUklonjena,
         @RequestParam(required = false) MultipartFile slika){
 
-        return new TuristaRepo().azurirajProfil(korisnicko_ime, ime, prezime, adresa, telefon, email, broj_kartice, slika);
+        return new TuristaRepo().azurirajProfil(korisnicko_ime, ime, prezime, adresa, telefon, email, broj_kartice, slikaUklonjena, slika);
     }
 }

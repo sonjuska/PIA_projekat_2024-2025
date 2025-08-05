@@ -595,6 +595,33 @@ select:focus {
 .fc-button:hover {
   background-color: #8d6e63;
 }
+/*biranje slika*/
+.slike-preview {
+  display: flex;
+  flex-wrap: wrap; /* Ako nema mesta u jednom redu, slike idu u novi */
+  gap: 10px;       /* Razmak između slika */
+}
+
+.slika-item {
+  position: relative;
+}
+
+.slika-item img {
+  display: block;
+  border-radius: 4px;
+}
+
+.slika-item .btn-odbij {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
 
 
 

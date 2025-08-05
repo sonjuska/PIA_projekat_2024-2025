@@ -33,46 +33,51 @@ export class UrediMojuVikendicuComponent implements OnInit {
 
   ruta = inject(ActivatedRoute)
   vikendicaServis = inject(MojeVikendiceService)
+
   vikendica: Vikendica = new Vikendica();
   novaUsluga: string = '';
   usluge: string[] = [];
+  slike: string[] = []; 
+  slikePreview: string[] = []; 
+  stareSlike: string[] = [];      
+  obrisaneSlike: string[] = [];
 
   azuriraj(){
-  this.vikendica.usluge = this.usluge.join(',');
+    this.vikendica.usluge = this.usluge.join(',');
 
-  this.vikendicaServis.azurirajVikendicu(this.vikendica, this.slike, this.obrisaneSlike).subscribe(res=>{
-    if(res.uspeh){
-      Swal.fire({
-        title: 'Uspeh!',
-        text: res.poruka,
-        icon: 'success',
-        confirmButtonText: 'U redu',
-        confirmButtonColor: '#72522bff'
-      });
-    }else{
-      Swal.fire({
-        title: 'Greška!',
-        text: res.poruka,
-        icon: 'error',
-        confirmButtonText: 'Zatvori',
-        confirmButtonColor: '#72522bff'
-      });
-    }
-  })
-}
+    this.vikendicaServis.azurirajVikendicu(this.vikendica, this.slike, this.obrisaneSlike).subscribe(res=>{
+      if(res.uspeh){
+        Swal.fire({
+          title: 'Uspeh!',
+          text: res.poruka,
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        });
+      }else{
+        Swal.fire({
+          title: 'Greška!',
+          text: res.poruka,
+          icon: 'error',
+          confirmButtonText: 'Zatvori',
+          confirmButtonColor: '#72522bff'
+        });
+      }
+    })
+  }
   dozvoliSamoBrojeve(event: KeyboardEvent) {
-    const char = event.key;
+    let char = event.key;
 
     //dozvoli samo cifre i + kao prvi karakter
-    const isFirstCharPlus = char === '+' && (event.target as HTMLInputElement).selectionStart === 0;
-    const isDigit = /^[0-9]$/.test(char);
+    let isFirstCharPlus = char === '+' && (event.target as HTMLInputElement).selectionStart === 0;
+    let isDigit = /^[0-9]$/.test(char);
 
     if (!isDigit && !isFirstCharPlus) {
       event.preventDefault();
     }
   }
   dodajUslugu() {
-    const usluga = this.novaUsluga.trim();
+    let usluga = this.novaUsluga.trim();
     if (usluga && !this.usluge.includes(usluga)) {
       this.usluge.push(usluga);
     }
@@ -82,41 +87,38 @@ export class UrediMojuVikendicuComponent implements OnInit {
   ukloniUslugu(index: number) {
     this.usluge.splice(index, 1);
   }
-  slike: string[] = []; 
-  slikePreview: string[] = []; 
-  stareSlike: string[] = [];      
-  obrisaneSlike: string[] = [];
 
   onSlikeSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
+    let input = event.target as HTMLInputElement;
     if (!input.files) return;
 
     Array.from(input.files).forEach(file => {
-      const reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = (e: any) => {
-        const slikaURL = e.target.result as string;
+        let slikaURL = e.target.result as string;
         this.slike.push(slikaURL); 
         this.slikePreview.push(slikaURL);
       };
       reader.readAsDataURL(file);
     });
   }
+
   ukloniSliku(index: number) {
-  let slikaZaBrisanje = this.slikePreview[index];
+    let slikaZaBrisanje = this.slikePreview[index];
 
-  let relPath = this.stareSlike.find(p => `http://localhost:8080/${p}` === slikaZaBrisanje);
-  if (relPath) {
-    this.obrisaneSlike.push(relPath);
-    this.stareSlike = this.stareSlike.filter(p => p !== relPath);
-  } else {
-    let idxNove = this.slike.indexOf(slikaZaBrisanje);
-    if (idxNove >= 0) {
-      this.slike.splice(idxNove, 1);
+    let relPath = this.stareSlike.find(p => `http://localhost:8080/${p}` === slikaZaBrisanje);
+    if (relPath) {
+      this.obrisaneSlike.push(relPath);
+      this.stareSlike = this.stareSlike.filter(p => p !== relPath);
+    } else {
+      let idxNove = this.slike.indexOf(slikaZaBrisanje);
+      if (idxNove >= 0) {
+        this.slike.splice(idxNove, 1);
+      }
     }
-  }
 
-  this.slikePreview.splice(index, 1);
-}
+    this.slikePreview.splice(index, 1);
+  }
 
 
 }

@@ -29,8 +29,9 @@ public class VlasnikController {
         @RequestParam String telefon,
         @RequestParam String email,
         @RequestParam String broj_kartice,
+        @RequestParam boolean slikaUklonjena,
         @RequestParam(required = false) MultipartFile slika){
 
-        return new VlasnikRepo().azurirajProfil(korisnicko_ime, ime, prezime, adresa, telefon, email, broj_kartice, slika);
+        return new VlasnikRepo().azurirajProfil(korisnicko_ime, ime, prezime, adresa, telefon, email, broj_kartice, slikaUklonjena, slika);
     }
 }

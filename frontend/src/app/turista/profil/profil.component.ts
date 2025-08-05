@@ -26,25 +26,47 @@ export class ProfilComponent {
       this.turistaServis.dohvatiKorisnika(k.korisnicko_ime).subscribe(korisnik=>{
         if(korisnik){
           this.korisnik = korisnik;
+
+          if (this.korisnik.profilna_slika_path) {
+            this.slikaPreview = 'http://localhost:8080/' + this.korisnik.profilna_slika_path;
+          }
         }
       })
     }
   }
 
-  korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
-  novaSlika: File | null = null;
-
   turistaServis = inject(TuristaService)
   ruter = inject(Router)
 
-  izaberiSliku(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.novaSlika = event.target.files[0];
-    }
+  korisnik: KorisnikLoginResponse = new KorisnikLoginResponse();
+  novaSlika: File | null = null;
+  slikaPreview: string | null = null;
+  slikaUklonjena = false;
+
+  izaberiSliku(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    this.novaSlika = file;
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.slikaPreview = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+
+  ukloniSliku() {
+    this.novaSlika = null;
+    this.slikaPreview = null;
+    this.korisnik.profilna_slika_path = ''; 
+    this.slikaUklonjena = true;
   }
 
   azuriraj() {
-    this.turistaServis.azurirajKorisnika(this.korisnik, this.novaSlika).subscribe(res => {
+    this.turistaServis.azurirajKorisnika(this.korisnik, this.novaSlika, this.slikaUklonjena).subscribe(res => {
       if (res) {
         Swal.fire({
           title: 'Uspeh!',

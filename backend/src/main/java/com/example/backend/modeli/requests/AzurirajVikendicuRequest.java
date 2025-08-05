@@ -9,6 +9,7 @@ public class AzurirajVikendicuRequest {
     private Vikendica vikendica;
     private List<String> noveSlike;
     private List<String> obrisaneSlike;
+    
     public AzurirajVikendicuRequest(Vikendica vikendica, List<String> slike, List<String> obrisaneSlike) {
         this.vikendica = vikendica;
         this.noveSlike = slike;

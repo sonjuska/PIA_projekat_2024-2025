@@ -35,9 +35,33 @@
 
     <div class="form-group">
       <label for="slika">Profilna slika:</label>
-      <input type="file" id="slika" name="slika" (change)="izaberiSliku($event)" />
-      <img *ngIf="korisnik.profilna_slika_path" [src]="'http://localhost:8080/' + korisnik.profilna_slika_path" alt="profilna" width="80" style="margin-top: 10px; border-radius: 4px;" />
-    </div><br>
+      <input 
+        type="file" 
+        id="slika" 
+        name="slika" 
+        (change)="izaberiSliku($event)"
+        accept="image/*"
+      />
+
+      <div class="slike-preview" *ngIf="slikaPreview">
+        <div class="slika-item">
+          <img 
+            [src]="slikaPreview" 
+            alt="profilna" 
+            width="100" 
+            style="border-radius: 4px;"
+          />
+          <button 
+            type="button" 
+            class="btn-odbij" 
+            (click)="ukloniSliku()">
+            ❌
+          </button>
+        </div>
+      </div>
+    </div>
+
+  <br>
 
     <button type="submit" class="btn" [disabled]="!profilForm.form.valid">Ažuriraj podatke</button>
   </form>

@@ -15,7 +15,7 @@ export class TuristaService {
     return this.http.get<KorisnikLoginResponse>(this.url + '/dohvatiKorisnika', {params: {korisnicko_ime: korisnicko_ime}});
   }
 
-  azurirajKorisnika(korisnik: KorisnikLoginResponse, novaSlika: File | null): Observable<boolean> {
+  azurirajKorisnika(korisnik: KorisnikLoginResponse, novaSlika: File | null, slikaUklonjena: boolean): Observable<boolean> {
     const formData = new FormData();
 
     formData.append('korisnicko_ime', korisnik.korisnicko_ime);
@@ -25,6 +25,7 @@ export class TuristaService {
     formData.append('telefon', korisnik.telefon);
     formData.append('email', korisnik.email);
     formData.append('broj_kartice', korisnik.broj_kartice);
+    formData.append('slikaUklonjena', slikaUklonjena.toString());
 
     if (novaSlika) {
       formData.append('slika', novaSlika);

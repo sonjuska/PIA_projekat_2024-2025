@@ -207,14 +207,14 @@ export class MojeVikendiceComponent implements OnInit{
   slikePreview: string[] = []; 
 
   onSlikeSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
+    let input = event.target as HTMLInputElement;
     if (!input.files) return;
 
     this.slike = [];
     this.slikePreview = [];
 
     Array.from(input.files).forEach(file => {
-      const reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = (e: any) => {
         let slikaURL = e.target.result as string;
         this.slike.push(slikaURL); 
@@ -222,9 +222,16 @@ export class MojeVikendiceComponent implements OnInit{
       };
       reader.readAsDataURL(file);
     });
-    console.log(this.slike);
+
   }
 
-
+  ukloniSliku(index: number) {
+    let slikaZaBrisanje = this.slikePreview[index];
+    let idxNove = this.slike.indexOf(slikaZaBrisanje);
+    if (idxNove >= 0) {
+      this.slike.splice(idxNove, 1);
+    }
+    this.slikePreview.splice(index, 1);
+  }
 
 }

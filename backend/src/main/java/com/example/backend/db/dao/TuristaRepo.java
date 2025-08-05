@@ -1,5 +1,6 @@
 package com.example.backend.db.dao;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,29 +51,28 @@ public class TuristaRepo {
     }
 
     public int azurirajProfil(String korisnicko_ime, String ime, String prezime,
-                                String adresa, String telefon, String email, String broj_kartice,
-                                MultipartFile slika) {
+                            String adresa, String telefon, String email, String broj_kartice,
+                            boolean slikaUklonjena, MultipartFile slika) {
 
         String slikaPutanja = null;
         String prethodnaSlika = null;
 
-        //uzimanje prethodne slike iz baze
+        // 1. Uzimanje prethodne slike iz baze
         try (Connection conn = DB.source().getConnection();
             PreparedStatement stmt = conn.prepareStatement(
-                "SELECT profilna_slika_path FROM korisnik WHERE korisnicko_ime = ?")) {
+                    "SELECT profilna_slika_path FROM korisnik WHERE korisnicko_ime = ?")) {
 
             stmt.setString(1, korisnicko_ime);
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 prethodnaSlika = rs.getString("profilna_slika_path");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return -3;
         }
 
-        //ako je prosleđena nova slika
+        // 2. Ako je prosleđena nova slika
         if (slika != null && !slika.isEmpty()) {
             try {
                 String staticDir = Paths.get(System.getProperty("user.dir"), "backend", "src", "main", "resources", "static").toString();
@@ -88,24 +88,31 @@ public class TuristaRepo {
                 slika.transferTo(filePath.toFile());
                 slikaPutanja = jedinstvenoIme;
 
-                //brisanje prethodne slike (ako postoji)
+                // briši staru sliku
                 if (prethodnaSlika != null && !prethodnaSlika.equals("default.jpg")) {
-                    Path staraSlikaPath = uploadPath.resolve(prethodnaSlika);
-                    try {
-                        Files.deleteIfExists(staraSlikaPath);
-                    } catch (Exception e) {
-                        System.err.println("Greška pri brisanju stare slike: " + staraSlikaPath);
-                        e.printStackTrace();
-                    }
+                    Files.deleteIfExists(uploadPath.resolve(prethodnaSlika));
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
                 return -1;
             }
         }
 
-        //azuriranje korisnika u bazi
+        // 3. Ako je slika uklonjena
+        if (slikaUklonjena && (slika == null || slika.isEmpty())) {
+            slikaPutanja = "default.jpg";
+            // briši staru sliku
+            try {
+                if (prethodnaSlika != null && !prethodnaSlika.equals("default.jpg")) {
+                    String staticDir = Paths.get(System.getProperty("user.dir"), "backend", "src", "main", "resources", "static").toString();
+                    Files.deleteIfExists(Paths.get(staticDir).resolve(prethodnaSlika));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 4. UPDATE upit
         String query = "UPDATE korisnik SET ime=?, prezime=?, adresa=?, telefon=?, email=?, broj_kartice=?"
                     + (slikaPutanja != null ? ", profilna_slika_path=?" : "")
                     + " WHERE korisnicko_ime=?";
@@ -133,5 +140,6 @@ public class TuristaRepo {
             return -2;
         }
     }
+
 
 }

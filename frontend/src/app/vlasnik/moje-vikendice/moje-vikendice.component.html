@@ -123,16 +123,23 @@
         />
         </div>
 
-        <!-- Prikaz izabranih slika -->
+        <!--slike sa dugmetom za brisanje -->
         <div class="slike-preview">
-        <img 
-            *ngFor="let slika of slikePreview" 
+        <div class="slika-item" *ngFor="let slika of slikePreview; let i = index">
+            <img 
             [src]="slika" 
             alt="Slika vikendice" 
             width="100" 
             style="margin: 5px; border-radius: 4px;"
-        />
-    </div>
+            />
+            <button 
+            type="button" 
+            class="btn-odbij" 
+            (click)="ukloniSliku(i)">
+            ❌
+            </button>
+        </div>
+        </div>
 
     <button type="submit" class="btn" [disabled]="!vikendicaForm.form.valid">Dodaj</button>
   </form>
