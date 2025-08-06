@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RegistracijaService } from './registracija.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registracija',
@@ -110,7 +111,14 @@ export class RegistracijaComponent {
       if(!res.registrovan){
         this.porukaGreske = res.poruka
       }else{
-        this.ruter.navigate([''])
+        Swal.fire({
+          title: 'Uspeh!',
+          text: res.poruka,
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        });
+        this.ruter.navigate(['']);
       }
     })
   }

@@ -95,14 +95,13 @@ export class RezervacijeComponent implements OnInit{
   nemoguceOtkazivanje(r: DohvatiRezervacijuResponse): Boolean{
     if (!r.datum_od || !r.vreme_od) return false;
 
-    //datum i vreme u ISO format: "yyyy-MM-ddTHH:mm"
-    const datumVremeOdStr = `${r.datum_od}T${r.vreme_od}`;
-    const datumVremeOd = new Date(datumVremeOdStr);
+    let datumVremeOdStr = `${r.datum_od}T${r.vreme_od}`;
+    let datumVremeOd = new Date(datumVremeOdStr);
 
-    const sada = new Date();
+    let sada = new Date();
 
-    const razlikaUMilisekundama = datumVremeOd.getTime() - sada.getTime();
-    const razlikaUDanima = razlikaUMilisekundama / (1000 * 60 * 60 * 24);
+    let razlikaUMilisekundama = datumVremeOd.getTime() - sada.getTime();
+    let razlikaUDanima = razlikaUMilisekundama / (1000 * 60 * 60 * 24);
 
     return razlikaUDanima < 1;
   }
