@@ -34,7 +34,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let vik of vikendice">
+      <tr *ngFor="let vik of vikendice" [style]="daLiJeBlokirana(vik)" [matTooltip]="getTooltipZaVikendicu(vik)">
         <td class="detaljiVikendice" [routerLink]="['/turista/vikendice', vik.id]">{{ vik.naziv }}</td>
         <td>{{ vik.mesto }}</td>
         <td>

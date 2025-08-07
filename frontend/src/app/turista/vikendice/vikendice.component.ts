@@ -4,11 +4,12 @@ import { VikendicaService } from './vikendica.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Vikendica } from '../../models/vikendica';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-vikendice',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, MatTooltipModule],
   templateUrl: './vikendice.component.html',
   styleUrl: './vikendice.component.css'
 })
@@ -26,7 +27,6 @@ export class VikendiceComponent implements OnInit{
   sortSmer: 'asc' | 'desc' = 'asc';
 
   private vikendicaService = inject(VikendicaService);
-  private ruter = inject(Router)
 
   ucitajVikendice() {
     this.vikendicaService.getVikendice().subscribe(data => {
@@ -75,5 +75,25 @@ export class VikendiceComponent implements OnInit{
     }
     return zvezdice;
   }
+
+  daLiJeBlokirana(v: Vikendica): string {
+    if (v.blokirana_do && new Date(v.blokirana_do) > new Date()) {
+      return 'background-color: #f5a698;';
+    }
+    return '';
+  }
+  formatirajDatum(dateStr: string): string {
+    let datum = new Date(dateStr);
+    return datum.toLocaleDateString('sr-RS'); // format: 10.8.2025.
+  }
+  getTooltipZaVikendicu(v: Vikendica): string{
+    if (v.blokirana_do && new Date(v.blokirana_do) > new Date()) {
+      return 'Blokirana do: ' + this.formatirajDatum(v.blokirana_do);
+    }
+    return '';
+  }
+
+
+
 
 }

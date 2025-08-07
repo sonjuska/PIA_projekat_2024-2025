@@ -149,25 +149,67 @@ input[type="text"] {
 .zahtevi-table td,
 .rezervacije-table th,
 .rezervacije-table td  {
-  border: 1px solid #a1887f;
+
   padding: 10px;
   text-align: center;
   vertical-align: middle;
+  border: 1px solid #a1887f;
 }
 
 
 .vikendica-table th, .zahtevi-table th, .rezervacije-table th {
   cursor: pointer;
-  background-color: #9b6757; /* tamna braon za header */
+  background-color: #835d52; 
   color: white;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 12px;
+}
+.vikendica-table td,
+.zahtevi-table td,
+.rezervacije-table td {
+  font-size: 14px;
+  padding: 12px;
+  color: #3e2723;
+}
+.vikendica-table tr:first-child th:first-child,
+.zahtevi-table tr:first-child th:first-child,
+.rezervacije-table tr:first-child th:first-child {
+  border-top-left-radius: 12px;
+}
+.vikendica-table tr:first-child th:last-child,
+.zahtevi-table tr:first-child th:last-child,
+.rezervacije-table tr:first-child th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.vikendica-table tr:last-child td:first-child,
+.zahtevi-table tr:last-child td:first-child,
+.rezervacije-table tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.vikendica-table tr:last-child td:last-child,
+.zahtevi-table tr:last-child td:last-child,
+.rezervacije-table tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Glatka tranzicija za boje i transformacije */
+.vikendica-table tr,
+.zahtevi-table tr,
+.rezervacije-table tr {
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .vikendica-table tr:nth-child(even), .zahtevi-table tr:nth-child(even), .rezervacije-table tr:nth-child(even){
-  background-color: #efebe9; /* svetlo braon nijansa */
+  background-color: #efebe9; 
 }
 
 .vikendica-table tr:hover, .zahtevi-table tr:hover, .rezervacije-table tr:hover {
   background-color: #d7ccc8;
+  transform: scale(1.005);
+  transition: all 0.15s ease-in-out;
 }
 
 /*login forma*/

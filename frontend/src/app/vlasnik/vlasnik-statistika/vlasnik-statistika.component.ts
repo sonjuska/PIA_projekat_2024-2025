@@ -91,10 +91,10 @@ export class VlasnikStatistikaComponent implements OnInit{
     ]
   };
   sviRezervacijeSuNula(): boolean {
-  return this.podaciKolonaDijagram.every(mesec =>
-    mesec.series.every(s => s.value === 0)
-  );
-}
+    return this.podaciKolonaDijagram.every(mesec =>
+      mesec.series.every(s => s.value === 0)
+    );
+  }
 
 
 

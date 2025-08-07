@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Cenovnik } from '../../../models/cenovnik';
 import * as L from 'leaflet';
 import { Komentar } from '../../../models/komentar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vikendica-detalji',
@@ -146,6 +147,20 @@ export class VikendicaDetaljiComponent implements OnInit{
 
   zakazi(){
     if(!this.vikendica.id) return;
+    else if(this.vikendica.blokirana_do && new Date(this.vikendica.blokirana_do)>new Date()){
+      Swal.fire({
+        title: 'Radnja nije moguća!',
+        text: 'Vikendica je blokirana do '+  new Date(this.vikendica.blokirana_do).toLocaleDateString('sr-RS'),
+        icon: 'info',
+        confirmButtonText: 'Zatvori',
+        confirmButtonColor: '#72522bff'
+      }).then(rez=>{
+        if(rez.isConfirmed){
+          this.ruter.navigate(['turista/vikendice'])
+        }
+      });
+      return;
+    }
     this.ruter.navigate(['turista/zakazivanje', this.vikendica.id]);
   }
 
