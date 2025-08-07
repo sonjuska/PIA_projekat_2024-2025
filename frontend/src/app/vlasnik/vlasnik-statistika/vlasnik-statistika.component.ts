@@ -29,7 +29,7 @@ export class VlasnikStatistikaComponent implements OnInit{
 
       this.statistikaServis.dohvatiPodatkeDijagramPita(this.vlasnik.korisnicko_ime).subscribe(podaci => {
         this.podaciPitaDijagram = podaci;
-        //console.log(this.podaciPitaDijagram)
+        console.log(this.podaciPitaDijagram)
         this.pitaDijagrami = podaci.map(pd => ({
           title: pd.name,
           results: [
@@ -80,7 +80,7 @@ export class VlasnikStatistikaComponent implements OnInit{
     selectable: true,
     group: ScaleType.Ordinal,
     domain: [
-      '#A0522D', 
+      '#e67440ff', 
       '#c8cd3fff', 
       '#8b3513ff', 
       '#e9a371ff', 
@@ -90,6 +90,12 @@ export class VlasnikStatistikaComponent implements OnInit{
       '#f80808ff'
     ]
   };
+  sviRezervacijeSuNula(): boolean {
+  return this.podaciKolonaDijagram.every(mesec =>
+    mesec.series.every(s => s.value === 0)
+  );
+}
+
 
 
 }

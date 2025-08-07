@@ -1,33 +1,54 @@
 <div class="charts-wrapper">
   <div class="bar-chart-container">
-    <ngx-charts-bar-vertical-2d
-      [results]="podaciKolonaDijagram"
-      [view]="view"
-      [scheme]="colorScheme"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [barPadding]="2"
-      [groupPadding]="5"
-      [roundDomains]="true">
-    </ngx-charts-bar-vertical-2d>
+    <ng-container *ngIf="!sviRezervacijeSuNula(); else nemaRezervacija">
+      <ngx-charts-bar-vertical-2d
+        [results]="podaciKolonaDijagram"
+        [view]="view"
+        [scheme]="colorScheme"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [barPadding]="2"
+        [groupPadding]="5"
+        [roundDomains]="true">
+      </ngx-charts-bar-vertical-2d>
+    </ng-container>
+
+    <ng-template #nemaRezervacija>
+      <div class="nema-rezervacija-info">
+        <p>Nemate nijednu ostvarenu rezervaciju.</p>
+      </div>
+    </ng-template>
   </div>
 
   <div class="pie-charts-container">
-    <div class="pie-block" *ngFor="let item of pitaDijagrami">
-      <h3>{{ item.title }}</h3>
-      <div class="pie-inner-block">
-        <ngx-charts-pie-chart
-          [view]="[250, 250]"
-          [results]="item.results"
-          [scheme]="colorScheme"
-          [labels]="false">
-        </ngx-charts-pie-chart>
-      </div>
+<div class="pie-block" *ngFor="let item of pitaDijagrami">
+  <h3>{{ item.title }}</h3>
+
+  <ng-container *ngIf="item.results[0].value > 0 || item.results[1].value > 0; else nemaRezervacija">
+    <div class="pie-inner-block">
+      <ngx-charts-pie-chart
+        [view]="[250, 250]"
+        [results]="item.results"
+        [scheme]="colorScheme"
+        [labels]="false">
+      </ngx-charts-pie-chart>
     </div>
+  </ng-container>
+
+  <ng-template #nemaRezervacija>
+    <div class="nema-rezervacija-info">
+      <p>
+        Nema rezervacija
+        <span *ngIf="item.results[0].value === 0 && item.results[1].value === 0">ni vikendom ni radnim danima.</span>
+      </p>
+    </div>
+  </ng-template>
+</div>
+
   </div>
 </div>

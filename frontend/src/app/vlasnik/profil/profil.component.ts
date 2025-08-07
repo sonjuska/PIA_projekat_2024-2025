@@ -70,16 +70,16 @@ export class ProfilComponent {
           icon: 'success',
           confirmButtonText: 'U redu',
           confirmButtonColor: '#72522bff'
+        }).then(() => {
+          this.vlasnikServis.dohvatiKorisnika(this.korisnik.korisnicko_ime).subscribe(korisnik => {
+            if (korisnik) {
+              this.korisnik = korisnik;
+              localStorage.setItem('korisnik', JSON.stringify(korisnik));
+              window.location.reload();
+            }
+          });
         });
-        this.vlasnikServis.dohvatiKorisnika(this.korisnik.korisnicko_ime).subscribe(korisnik=>{
-          if(korisnik){
-            this.korisnik = korisnik
-            localStorage.setItem('korisnik', JSON.stringify(korisnik))
-            this.ruter.navigate(['/vlasnik/profil']);
-          }
-        })
-
-      } else {
+      }else{
         Swal.fire({
           title: 'Greška!',
           text: 'Greška pri ažuriranju.',

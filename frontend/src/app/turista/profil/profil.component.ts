@@ -44,13 +44,13 @@ export class ProfilComponent {
   slikaUklonjena = false;
 
   izaberiSliku(event: Event) {
-    const input = event.target as HTMLInputElement;
+    let input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
 
-    const file = input.files[0];
+    let file = input.files[0];
     this.novaSlika = file;
 
-    const reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = (e: any) => {
       this.slikaPreview = e.target.result;
     };
@@ -74,16 +74,16 @@ export class ProfilComponent {
           icon: 'success',
           confirmButtonText: 'U redu',
           confirmButtonColor: '#72522bff'
+        }).then(() => {
+          this.turistaServis.dohvatiKorisnika(this.korisnik.korisnicko_ime).subscribe(korisnik => {
+            if (korisnik) {
+              this.korisnik = korisnik;
+              localStorage.setItem('korisnik', JSON.stringify(korisnik));
+              window.location.reload();
+            }
+          });
         });
-        this.turistaServis.dohvatiKorisnika(this.korisnik.korisnicko_ime).subscribe(korisnik=>{
-          if(korisnik){
-            this.korisnik = korisnik
-            localStorage.setItem('korisnik', JSON.stringify(korisnik))
-            this.ruter.navigate(['/turista/profil']);
-          }
-        })
-
-      } else {
+      }else{
         Swal.fire({
           title: 'Greška!',
           text: 'Greška pri ažuriranju.',
