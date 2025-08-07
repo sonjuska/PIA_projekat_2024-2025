@@ -1,4 +1,3 @@
-import { LoginService } from './../../login/login.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +8,7 @@ import { TuristaService } from '../turista.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-profil',
+  selector: 'app-turista-profil',
   standalone: true,
   imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './profil.component.html',

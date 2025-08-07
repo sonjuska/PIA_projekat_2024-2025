@@ -7,7 +7,7 @@ import { KorisnikLoginResponse } from '../../responses/KorisnikLoginResponse';
 import { VlasnikService } from '../vlasnik.service';
 
 @Component({
-  selector: 'app-profil',
+  selector: 'app-vlasnik-profil',
   standalone: true,
   imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './profil.component.html',
