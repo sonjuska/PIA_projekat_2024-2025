@@ -22,6 +22,7 @@ import { ProfilComponent as VlasnikProfilComponent} from './vlasnik/profil/profi
 import { RezervacijeComponent as VlasnikRezervacijeComponent} from './vlasnik/rezervacije/rezervacije.component';
 import { UrediMojuVikendicuComponent } from './vlasnik/moje-vikendice/uredi-moju-vikendicu/uredi-moju-vikendicu.component';
 import { VlasnikStatistikaComponent } from './vlasnik/vlasnik-statistika/vlasnik-statistika.component';
+import { UrediKorisnikaComponent } from './admin/korisnici/uredi-korisnika/uredi-korisnika.component';
 
 export const routes: Routes = [
     {path: "", component: PocetnaComponent},
@@ -35,7 +36,8 @@ export const routes: Routes = [
         canActivate: [adminUlogovanGuard],
         children: [
             { path: "korisnici", component: KorisniciComponent },
-            { path: "zahtevi", component: ZahteviZaRegistracijuComponent }
+            { path: "zahtevi", component: ZahteviZaRegistracijuComponent },
+            { path: "korisnici/uredi-korisnika/:id", component: UrediKorisnikaComponent}
         ]
     },
     {
@@ -59,8 +61,9 @@ export const routes: Routes = [
             { path: "rezervacije", component: VlasnikRezervacijeComponent},
             { path: "moje-vikendice", component: MojeVikendiceComponent},
             { path: "moje-vikendice/:id", component: UrediMojuVikendicuComponent},
-            { path: "statistika", component: VlasnikStatistikaComponent}
+            { path: "statistika", component: VlasnikStatistikaComponent},
+
         ]
-    },
+    }
 
 ];

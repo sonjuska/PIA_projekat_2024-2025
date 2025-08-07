@@ -27,8 +27,29 @@ export class AdminService {
   dohvatiKorisnike(): Observable<KorisnikLoginResponse[]>{
     return this.http.get<KorisnikLoginResponse[]>(this.url+'/korisnici')
   }
-  azurirajKorisnika(korisnik: KorisnikLoginResponse): Observable<SimpleResponse>{
-    return this.http.put<SimpleResponse>(`${this.url}/azurirajKorisnika`, korisnik)
+  dohvatiKorisnikaPoKorisnickomImenu(korisnicko_ime: string):Observable<KorisnikLoginResponse>{
+    return this.http.get<KorisnikLoginResponse>(this.url+'/uredi-korisnika/korisnik', {params: {korisnicko_ime: korisnicko_ime}})
+  }
+  azurirajKorisnika(korisnik: KorisnikLoginResponse, novaSlika: File | null, slikaUklonjena: boolean): Observable<SimpleResponse> {
+    const formData = new FormData();
+
+    formData.append('korisnicko_ime', korisnik.korisnicko_ime);
+    formData.append('ime', korisnik.ime);
+    formData.append('prezime', korisnik.prezime);
+    formData.append('pol', korisnik.pol);
+    formData.append('adresa', korisnik.adresa);
+    formData.append('telefon', korisnik.telefon);
+    formData.append('email', korisnik.email);
+    formData.append('broj_kartice', korisnik.broj_kartice);
+    formData.append('uloga', korisnik.uloga);
+    formData.append('aktivan', korisnik.aktivan.toString());
+    formData.append('slikaUklonjena', slikaUklonjena.toString());
+
+    if (novaSlika) {
+      formData.append('slika', novaSlika);
+    }
+
+    return this.http.post<SimpleResponse>(`${this.url}/azurirajKorisnika`, formData)
   }
   deaktivirajKorisnika(korisnicko_ime: string): Observable<SimpleResponse>{
     return this.http.get<SimpleResponse>(`${this.url}/deaktivirajKorisnika`, {params: {korisnicko_ime: korisnicko_ime}})

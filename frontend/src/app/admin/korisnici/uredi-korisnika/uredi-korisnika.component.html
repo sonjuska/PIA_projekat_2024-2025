@@ -1,0 +1,98 @@
+<div class="register-container">
+  <form class="register-box" (ngSubmit)="sacuvajIzmene()" #adminForm="ngForm">
+    <h2>Izmena korisnika</h2>
+    <hr><br>
+
+    <div class="form-group">
+      <label for="korime">Korisničko ime:</label>
+      <input type="text" id="korime" name="korime" [(ngModel)]="korisnik.korisnicko_ime" required readonly />
+    </div>
+
+    <div class="form-group">
+      <label for="ime">Ime:</label>
+      <input type="text" id="ime" name="ime" [(ngModel)]="korisnik.ime" required />
+    </div>
+
+    <div class="form-group">
+      <label for="prezime">Prezime:</label>
+      <input type="text" id="prezime" name="prezime" [(ngModel)]="korisnik.prezime" required />
+    </div>
+
+    <div class="form-group">
+      <label for="pol">Pol:</label>
+      <select id="pol" name="pol" [(ngModel)]="korisnik.pol" required>
+        <option value="M">Muški</option>
+        <option value="Z">Ženski</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="korisnik.email" required />
+    </div>
+
+    <div class="form-group">
+      <label for="telefon">Telefon:</label>
+      <input type="text" id="telefon" name="telefon" [(ngModel)]="korisnik.telefon" />
+    </div>
+
+    <div class="form-group">
+      <label for="adresa">Adresa:</label>
+      <input type="text" id="adresa" name="adresa" [(ngModel)]="korisnik.adresa" />
+    </div>
+
+    <div class="form-group">
+      <label for="broj_kartice">Broj kartice:</label>
+      <input type="text" id="broj_kartice" name="broj_kartice" [(ngModel)]="korisnik.broj_kartice" required />
+    </div>
+
+    <div class="form-group">
+      <label for="uloga">Uloga:</label>
+      <select id="uloga" name="uloga" [(ngModel)]="korisnik.uloga" required>
+        <option value="turista">Turista</option>
+        <option value="vlasnik">Vlasnik</option>
+        <option value="administrator">Administrator</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="aktivan">Aktivan:</label>
+      <select id="aktivan" name="aktivan" [(ngModel)]="korisnik.aktivan" required>
+        <option [ngValue]="true">Da</option>
+        <option [ngValue]="false">Ne</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="slika">Profilna slika:</label>
+      <input 
+        type="file" 
+        id="slika" 
+        name="slika" 
+        (change)="izaberiSliku($event)"
+        accept="image/*"
+      />
+
+      <div class="slike-preview" *ngIf="slikaPreview">
+        <div class="slika-item">
+          <img 
+            [src]="slikaPreview" 
+            alt="profilna" 
+            width="100" 
+            style="border-radius: 4px;"
+          />
+          <button 
+            type="button" 
+            class="btn-odbij" 
+            (click)="ukloniSliku()">
+            ❌
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <button type="submit" class="btn" [disabled]="!adminForm.form.valid">Sačuvaj izmene</button>
+  </form>
+</div>
