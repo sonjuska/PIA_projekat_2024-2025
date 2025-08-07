@@ -34,20 +34,25 @@ export class RezervacijeComponent implements OnInit{
           this.korisnik = kor;
           this.rezervacijaServis.dohvatiMojeRezervacije(this.korisnik.korisnicko_ime).subscribe(rez=>{
             this.rezervacije = rez;
+        
             this.calendarOptions.events = this.rezervacije.map(r => ({
+              id: r.id.toString(),
               title: r.naziv,
               start: r.datum_od + 'T' + r.vreme_od,
               end: r.datum_do + 'T' + r.vreme_do,
+              allDay: false,
               color: r.status === 'na_cekanju' ? '#fff176' : '#81c784',
               textColor: '#4e342e',
               extendedProps: {
-                id: r.id,
                 status: r.status,
                 mesto: r.mesto,
                 vreme_od: r.vreme_od,
                 vreme_do: r.vreme_do
               }
-            }));
+
+            }
+            
+          ));
             for(let r of this.rezervacije){
               if(r.status=='na_cekanju') this.rezervacijeNaCekanju.push(r);
             }
@@ -79,6 +84,12 @@ export class RezervacijeComponent implements OnInit{
       day: 'Dan',
       list: 'Lista'
     },
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    },
+    displayEventTime: false,
     events: [],
     eventClick: this.klikNaDogadjaj.bind(this)
   };
