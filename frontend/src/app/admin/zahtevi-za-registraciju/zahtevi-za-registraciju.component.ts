@@ -5,6 +5,7 @@ import { ZahtevZaRegistraciju } from '../../models/zahtevZaRegistraciju';
 import { Korisnik } from '../../models/korisnik';
 import { AdminService } from '../admin.service';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-zahtevi-za-registraciju',
@@ -40,15 +41,34 @@ export class ZahteviZaRegistracijuComponent implements OnInit{
   adminServis = inject(AdminService)
 
   odobri(id: number){
-      this.adminServis.odobri(id).subscribe(res=>{
-        if(res){
-          this.adminServis.sviZahteviZaRegistraciju().subscribe(zahtevi=>{
-            if(zahtevi.length>0){
-              this.zahtevi = zahtevi
+      Swal.fire({
+        title: 'Da li ste sigurni?',
+        text: 'Potrvdite da biste odobrili zahtev za registraciju korisnika.',
+        icon: 'info',
+        confirmButtonText: 'Potvrdi',
+        confirmButtonColor: '#72522bff'
+      }).then(rez=>{
+        if(rez.isConfirmed){
+          this.adminServis.odobri(id).subscribe(res=>{
+            if(res){
+              this.adminServis.sviZahteviZaRegistraciju().subscribe(zahtevi=>{
+                if(zahtevi.length>0){
+                  this.zahtevi = zahtevi
+                  Swal.fire({
+                    title: 'Uspeh!',
+                    text: 'Zahtev za registraciju je odobren.',
+                    icon: 'success',
+                    confirmButtonText: 'Zatvori',
+                    confirmButtonColor: '#72522bff'
+                  })
+                }
+              })
             }
           })
+
         }
-      })
+      });
+
   }
   prikaziKomentar(id: number) {
     this.odbijeniId = id;

@@ -12,14 +12,14 @@
     </thead>
     <tbody>
         <ng-container *ngFor="let z of zahtevi">
-        <tr>
+        <tr *ngIf="z.status=='na_cekanju'">
             <td>{{ z.korisnicko_ime }}</td>
             <td>{{ z.datum_podnosenja | date: 'dd.MM.yyyy, HH:mm' }}</td>
             <td>{{ z.status === 'na_cekanju' ? 'na čekanju' : z.status }}</td>
             <td>{{ z.komentar_odbijanja}}</td>
             <td>
-            <button class="btn-odobri" (click)="odobri(z.id)" [disabled]="z.status !== 'na_cekanju'">✅</button>
-            <button class="btn-odbij" (click)="odbij(z.id)" [disabled]="z.status !== 'na_cekanju'">❌</button>
+              <button class="btn-odobri" (click)="odobri(z.id)" [disabled]="z.status !== 'na_cekanju'">✅</button>
+              <button class="btn-odbij" (click)="odbij(z.id)" [disabled]="z.status !== 'na_cekanju'">❌</button>
             </td>
         </tr>
         <tr *ngIf="odbijeniId === z.id">

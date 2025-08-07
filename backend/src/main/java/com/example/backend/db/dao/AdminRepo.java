@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.example.backend.db.DB;
 import com.example.backend.modeli.ZahtevZaRegistraciju;
+import com.example.backend.modeli.responses.KorisnikLoginResponse;
+import com.example.backend.modeli.responses.SimpleResponse;
 
 public class AdminRepo {
     
@@ -129,5 +131,60 @@ public class AdminRepo {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public List<KorisnikLoginResponse> dohvatiKorisnike(){
+        List<KorisnikLoginResponse> korisnici = new ArrayList<>();
+
+        String sql = "SELECT * FROM korisnik";
+
+        try (Connection conn = DB.source().getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+
+            while (rs.next()) {
+                KorisnikLoginResponse k = new KorisnikLoginResponse(
+                    rs.getString("korisnicko_ime"),
+                    rs.getString("ime"),
+                    rs.getString("prezime"),
+                    rs.getString("pol"),
+                    rs.getString("adresa"),
+                    rs.getString("telefon"),
+                    rs.getString("email"),
+                    rs.getString("profilna_slika_path"),
+                    rs.getString("broj_kartice"),
+                    rs.getString("uloga"),
+                    rs.getBoolean("aktivan")
+                );
+                korisnici.add(k);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return korisnici;
+    }
+
+    public SimpleResponse deaktivirajKorisnika(String korisnicko_ime) {
+
+        String sql = "update korisnik set aktivan = 0  where korisnicko_ime=?";
+
+        try (Connection conn = DB.source().getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql);) {
+
+                stm.setString(1, korisnicko_ime);
+                int rez = stm.executeUpdate();
+            if(rez>0) {
+                return new SimpleResponse(true, "Korisnik je uspešno deaktiviran.");
+            }else{
+                return new SimpleResponse(false, "Neuspešna deaktivacija korisnika.");
+            }
+
+        } catch (SQLException e) {
+            return new SimpleResponse(false, "Greška pri deaktivaciji korisnika.");
+
+        }
+
     }
 }

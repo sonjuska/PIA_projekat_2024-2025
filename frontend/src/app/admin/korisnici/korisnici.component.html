@@ -1,1 +1,38 @@
-<h1>AAAAAAAAAAAAAAAAAAA</h1>
+<div class="lista-zahteva">
+  <h2>Lista korisnika</h2><hr>
+  <table class="zahtevi-table" *ngIf="korisnici.length > 0; else nemaKorisnika">
+    <thead>
+      <tr>
+        <th>Korisničko ime</th>
+        <th>Ime i prezime</th>
+        <th>Pol</th>
+        <th>Email</th>
+        <th>Telefon</th>
+        <th>Adresa</th>
+        <th>Uloga</th>
+        <th>Aktivan</th>
+        <th>Akcija</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let k of korisnici">
+        <td>{{ k.korisnicko_ime }}</td>
+        <td>{{ k.ime }} {{ k.prezime }}</td>
+        <td>{{ k.pol === 'M' ? 'Muški' : k.pol === 'Z' ? 'Ženski' : 'Nepoznato' }}</td>
+        <td>{{ k.email }}</td>
+        <td>{{ k.telefon || '/' }}</td>
+        <td>{{ k.adresa || '/' }}</td>
+        <td>{{ k.uloga }}</td>
+        <td>{{ k.aktivan ? 'Da' : 'Ne' }}</td>
+        <td>
+            <button class="btn-odobri" (click)="azuriraj(k)">✏️</button>
+            <button class="btn-odbij" (click)="deaktiviraj(k)">⛔</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #nemaKorisnika>
+    <p style="text-align: center; font-weight: bold; color: #6d4c41;">Nema registrovanih korisnika.</p>
+  </ng-template>
+</div>
