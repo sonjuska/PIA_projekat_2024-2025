@@ -132,6 +132,27 @@ export class RegistracijaComponent {
 
 
   nazad(){
-    this.ruter.navigate([''])
+    this.ruter.navigate(['/'], {
+      queryParams: {},
+      replaceUrl: true
+    })
+
   }
+
+  dozvoliBrojeveIPlus(event: KeyboardEvent) {
+    const char = event.key;
+    if (char.length > 1) return;
+    if (/^\d$/.test(char)) return;
+    if (char === '+' && (!this.telefon || this.telefon.length === 0)) return;
+    event.preventDefault();
+  }
+
+  ocistiTelefon() {
+    if (!this.telefon) return;
+    this.telefon = this.telefon.replace(/[^\d+]/g, '');
+    if (this.telefon.indexOf('+') > 0) {
+      this.telefon = this.telefon.replace(/\+/g, '');
+    }
+  }
+
 }

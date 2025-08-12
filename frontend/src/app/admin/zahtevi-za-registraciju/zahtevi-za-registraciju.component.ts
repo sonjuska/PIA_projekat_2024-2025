@@ -78,10 +78,25 @@ export class ZahteviZaRegistracijuComponent implements OnInit{
     const komentar = this.komentari[id] || '';
     this.adminServis.odbij(id, komentar).subscribe(res => {
       if (res) {
+        Swal.fire({
+          title: 'Uspeh!',
+          text: 'Uspešno odbijen korisnički zahtev!',
+          icon: 'success',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        })
         this.adminServis.sviZahteviZaRegistraciju().subscribe(zahtevi => {
           this.zahtevi = zahtevi;
           this.odbijeniId = null;
         });
+      }else{
+        Swal.fire({
+          title: 'Greška!',
+          text: 'Greška pri odbijanju korisničkog zahteva!',
+          icon: 'error',
+          confirmButtonText: 'U redu',
+          confirmButtonColor: '#72522bff'
+        })
       }
     });
   }
