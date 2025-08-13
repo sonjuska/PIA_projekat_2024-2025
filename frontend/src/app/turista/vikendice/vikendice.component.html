@@ -17,36 +17,39 @@
 
 <div class="lista-vikendica">
   <h2>Lista vikendica</h2>
-  <table class="vikendica-table">
-    <thead>
-      <tr>
-        <th (click)="sortiraj('naziv')">
-          Naziv
-          <span *ngIf="sortKolona === 'naziv'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
-        </th>
-        <th (click)="sortiraj('mesto')">
-          Mesto
-          <span *ngIf="sortKolona === 'mesto'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
-        </th>
-        <th>
-            Ocena
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let vik of vikendice" [style]="daLiJeBlokirana(vik)" [matTooltip]="getTooltipZaVikendicu(vik)">
-        <td class="detaljiVikendice" [routerLink]="['/turista/vikendice', vik.id]">{{ vik.naziv }}</td>
-        <td>{{ vik.mesto }}</td>
-        <td>
-            <ng-container *ngIf="vik.prosecna_ocena > 0; else nijeOcenjena">
-                <span *ngFor="let zvezda of getZvezdice(vik.prosecna_ocena)">
-                <i [class]="zvezda" style="color: gold;"></i>
-                </span>
-                ({{ vik.prosecna_ocena.toFixed(2) }})
-            </ng-container>
-            <ng-template #nijeOcenjena>Nije ocenjena</ng-template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="table-responsive">
+      <table class="vikendica-table">
+        <thead>
+          <tr>
+            <th (click)="sortiraj('naziv')">
+              Naziv
+              <span *ngIf="sortKolona === 'naziv'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
+            </th>
+            <th (click)="sortiraj('mesto')">
+              Mesto
+              <span *ngIf="sortKolona === 'mesto'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
+            </th>
+            <th>
+                Ocena
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let vik of vikendice" [style]="daLiJeBlokirana(vik)" [matTooltip]="getTooltipZaVikendicu(vik)">
+            <td class="detaljiVikendice" [routerLink]="['/turista/vikendice', vik.id]">{{ vik.naziv }}</td>
+            <td>{{ vik.mesto }}</td>
+            <td>
+                <ng-container *ngIf="vik.prosecna_ocena > 0; else nijeOcenjena">
+                    <span *ngFor="let zvezda of getZvezdice(vik.prosecna_ocena)">
+                    <i [class]="zvezda" style="color: gold;"></i>
+                    </span>
+                    ({{ vik.prosecna_ocena.toFixed(2) }})
+                </ng-container>
+                <ng-template #nijeOcenjena>Nije ocenjena</ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
 </div>

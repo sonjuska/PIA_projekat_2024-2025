@@ -1,34 +1,37 @@
 <div class="lista-vikendica">
   <h2>Lista vikendica</h2>
-  <table *ngIf="vikendice.length>0" else #nemaVikendica class="vikendica-table">
-    <thead>
-      <tr>
-        <th>RB</th>
-        <th>Vlasnik</th>
-        <th>Naziv</th>
-        <th>Mesto</th>
-        <th>Usluge</th>
-        <th>Geografska širina</th>
-        <th>Geografska dužina</th>
-        <th>Akcija</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let vik of vikendice" [style]="vik.poslednje3OceneManjeOd2? 'background-color: lightcoral;': 'background-color: none;'">
-        <td>{{ vik.id }}</td>
-        <td>{{ vik.vlasnik }}</td>
-        <td>{{ vik.naziv }}</td>
-        <td>{{ vik.mesto }}</td>
-        <td>{{ vik.usluge }}</td>
-        <td>{{ vik.lat }}</td>
-        <td>{{ vik.lon }}</td>
-        <td>
-            <button class="btn" (click)="blokiraj(vik.id)">Privremeno blokiraj</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-    <ng-template #nemaVikendica>
-    <p style="text-align: center; font-weight: bold; color: #6d4c41;">Nema vikendica.</p>
-  </ng-template>
+  <div class="table-responsive">
+    <table *ngIf="vikendice.length>0" else #nemaVikendica class="vikendica-table">
+        <thead>
+        <tr>
+            <th>RB</th>
+            <th>Vlasnik</th>
+            <th>Naziv</th>
+            <th>Mesto</th>
+            <th>Usluge</th>
+            <th>Geografska širina</th>
+            <th>Geografska dužina</th>
+            <th>Akcija</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let vik of vikendice" [style]="vik.poslednje3OceneManjeOd2? 'background-color: lightcoral;': 'background-color: none;'">
+            <td>{{ vik.id }}</td>
+            <td>{{ vik.vlasnik }}</td>
+            <td>{{ vik.naziv }}</td>
+            <td>{{ vik.mesto }}</td>
+            <td>{{ vik.usluge }}</td>
+            <td>{{ vik.lat }}</td>
+            <td>{{ vik.lon }}</td>
+            <td>
+                <button class="btn" (click)="blokiraj(vik.id)">Privremeno blokiraj</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+        <ng-template #nemaVikendica>
+        <p style="text-align: center; font-weight: bold; color: #6d4c41;">Nema vikendica.</p>
+    </ng-template>
+    </div>
 </div>
+

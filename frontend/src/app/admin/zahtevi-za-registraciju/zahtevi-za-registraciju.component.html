@@ -1,34 +1,37 @@
 <div class="lista-zahteva">
   <h2>Lista zahteva</h2>
-  <table class="zahtevi-table">
-    <thead>
-      <tr>
-        <th>Korisničko ime</th>
-        <th>Datum podnošenja</th>
-        <th>Status</th>
-        <th>Komentar odbijanja</th>
-        <th>Akcije</th>
-      </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let z of zahtevi">
-        <tr *ngIf="z.status=='na_cekanju'">
-            <td>{{ z.korisnicko_ime }}</td>
-            <td>{{ z.datum_podnosenja | date: 'dd.MM.yyyy, HH:mm' }}</td>
-            <td>{{ z.status === 'na_cekanju' ? 'na čekanju' : z.status }}</td>
-            <td>{{ z.komentar_odbijanja}}</td>
-            <td>
-              <button class="btn-odobri" (click)="odobri(z.id)" [disabled]="z.status !== 'na_cekanju'">✅</button>
-              <button class="btn-odbij" (click)="odbij(z.id)" [disabled]="z.status !== 'na_cekanju'">❌</button>
-            </td>
+  <div class="table-responsive">
+    <table class="zahtevi-table">
+      <thead>
+        <tr>
+          <th>Korisničko ime</th>
+          <th>Datum podnošenja</th>
+          <th>Status</th>
+          <th>Komentar odbijanja</th>
+          <th>Akcije</th>
         </tr>
-        <tr *ngIf="odbijeniId === z.id">
-            <td colspan="4">
-            <input type="text" [(ngModel)]="komentari[z.id]" placeholder="Komentar odbijanja (opciono):" style="width: 60%"> &nbsp;
-            <button class="btn" (click)="spreman(z.id)">Pošalji</button>
-            </td>
-        </tr>
-        </ng-container>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          <ng-container *ngFor="let z of zahtevi">
+          <tr *ngIf="z.status=='na_cekanju'">
+              <td>{{ z.korisnicko_ime }}</td>
+              <td>{{ z.datum_podnosenja | date: 'dd.MM.yyyy, HH:mm' }}</td>
+              <td>{{ z.status === 'na_cekanju' ? 'na čekanju' : z.status }}</td>
+              <td>{{ z.komentar_odbijanja}}</td>
+              <td>
+                <button class="btn-odobri" (click)="odobri(z.id)" [disabled]="z.status !== 'na_cekanju'">✅</button>
+                <button class="btn-odbij" (click)="odbij(z.id)" [disabled]="z.status !== 'na_cekanju'">❌</button>
+              </td>
+          </tr>
+          <tr *ngIf="odbijeniId === z.id">
+              <td colspan="4">
+              <input type="text" [(ngModel)]="komentari[z.id]" placeholder="Komentar odbijanja (opciono):" style="width: 60%"> &nbsp;
+              <button class="btn" (click)="spreman(z.id)">Pošalji</button>
+              </td>
+          </tr>
+          </ng-container>
+      </tbody>
+    </table>
+  </div>
+
 </div>

@@ -1,41 +1,44 @@
 <div class="lista-rezervacija">
   <h2>Lista neobrađenih rezervacija</h2>
-  <table class="rezervacije-table" *ngIf="rezervacije.length > 0; else nemaAktivnih">
-    <thead>
-      <tr>
-        <th>Datum dolaska</th>
-        <th>Datum odlaska</th>
-        <th>Naziv vikendice</th>
-        <th>Mesto vikendice</th>
-        <th>Akcija</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let r of rezervacijeNaCekanju">
-        <tr>
-          <td>{{ r.datum_od  | date:'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
-          <td>{{ r.datum_do  | date:'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
-          <td>{{ r.naziv }}</td>
-          <td>{{ r.mesto }}</td>
-          <td>
-            <button class="btn-odobri" (click)="odobri(r.id)">✅</button>
-            <button class="btn-odbij" (click)="odbijUnesiKomentar(r.id)">❌</button>
-          </td>
-        </tr>
-        <tr *ngIf="trenutniIdKomentara==r.id">
-          <td colspan="8">
-              <div class="komentar-forma">
-                <label>Komentar:</label>
-                <textarea [(ngModel)]="r.komentar_odbijanja" rows="3" style="width: 100%" placeholder="Komentar odbijanja je obavezan."></textarea>
-                <br/>
-                <div class="error-msg">{{porukaGreske}}</div>
-                <button class="btn primary" (click)="odbij(r.id, r.komentar_odbijanja)">Pošalji i odbij</button>
-              </div>
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
+    <div class="table-responsive">
+      <table class="rezervacije-table" *ngIf="rezervacije.length > 0; else nemaAktivnih">
+        <thead>
+          <tr>
+            <th>Datum dolaska</th>
+            <th>Datum odlaska</th>
+            <th>Naziv vikendice</th>
+            <th>Mesto vikendice</th>
+            <th>Akcija</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let r of rezervacijeNaCekanju">
+            <tr>
+              <td>{{ r.datum_od  | date:'dd.MM.yyyy.' }} {{ r.vreme_od }}</td>
+              <td>{{ r.datum_do  | date:'dd.MM.yyyy.' }} {{ r.vreme_do }}</td>
+              <td>{{ r.naziv }}</td>
+              <td>{{ r.mesto }}</td>
+              <td>
+                <button class="btn-odobri" (click)="odobri(r.id)">✅</button>
+                <button class="btn-odbij" (click)="odbijUnesiKomentar(r.id)">❌</button>
+              </td>
+            </tr>
+            <tr *ngIf="trenutniIdKomentara==r.id">
+              <td colspan="8">
+                  <div class="komentar-forma">
+                    <label>Komentar:</label>
+                    <textarea [(ngModel)]="r.komentar_odbijanja" rows="3" style="width: 100%" placeholder="Komentar odbijanja je obavezan."></textarea>
+                    <br/>
+                    <div class="error-msg">{{porukaGreske}}</div>
+                    <button class="btn primary" (click)="odbij(r.id, r.komentar_odbijanja)">Pošalji i odbij</button>
+                  </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  
   <ng-template #nemaAktivnih>
     <p style="margin-top: 10px;">Nemate aktivnih rezervacija.</p>
   </ng-template>

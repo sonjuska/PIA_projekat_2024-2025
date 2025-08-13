@@ -38,24 +38,27 @@
 
 <div class="lista-vikendica">
   <h2>Lista vikendica</h2>
-  <table class="vikendica-table">
-    <thead>
-      <tr>
-        <th (click)="sortiraj('naziv')">
-          Naziv
-          <span *ngIf="sortKolona === 'naziv'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
-        </th>
-        <th (click)="sortiraj('mesto')">
-          Mesto
-          <span *ngIf="sortKolona === 'mesto'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let vik of vikendice">
-        <td>{{ vik.naziv }}</td>
-        <td>{{ vik.mesto }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="vikendica-table">
+      <thead>
+        <tr>
+          <th (click)="sortiraj('naziv')">
+            Naziv
+            <span *ngIf="sortKolona === 'naziv'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
+          </th>
+          <th (click)="sortiraj('mesto')">
+            Mesto
+            <span *ngIf="sortKolona === 'mesto'">{{ sortSmer === 'asc' ? '▲' : '▼' }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vik of vikendice">
+          <td>{{ vik.naziv }}</td>
+          <td>{{ vik.mesto }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>

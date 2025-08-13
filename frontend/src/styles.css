@@ -665,6 +665,80 @@ select:focus {
   cursor: pointer;
 }
 
+/* ========= GLOBAL ========= */
+@media (max-width: 768px) {
+  body { margin: 10px; background-attachment: scroll; background-size: cover; }
+  h2 { font-size: 1.1rem; }
+}
+
+/* ========= NAVBAR (za sve varijante) ========= */
+.navbar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; flex-wrap: wrap;
+}
+.navbar-brand { min-width: 0; font-weight: 700; }
+.navbar-buttons { 
+  display: flex; 
+  align-items: center; 
+  flex: 1 1 auto; 
+  flex-wrap: wrap; 
+  gap: 10px;       
+}
+
+.btn-nav { white-space: nowrap; }
+.navbar-buttons .user-info { margin-left: auto; }           /* avatar desno */
+/*odjava uz avatar*/
+.navbar-buttons .user-info + .btn-nav { 
+  margin-left: 8px; 
+}
+
+
+@media (max-width: 900px) {
+  .navbar-brand { flex: 1 0 100%; }                         /* 1. red */
+  .navbar-buttons { flex: 1 0 100%; justify-content: center; gap: 8px 12px; } /* 2. red */
+  .navbar-buttons .btn-nav[routerLink] { flex: 1 1 calc(50% - 12px); }        /* 2 u redu */
+  .navbar-buttons .user-info { order: 3; margin-left: auto; }
+  .navbar-buttons > .btn-nav:last-child { order: 4; }       /* Odjava do avatara */
+}
+@media (max-width: 560px) {
+  .navbar-buttons .btn-nav { flex: 1 0 100%; text-align: center; } /* svaki u svoj red */
+}
+
+/* ========= PANELI / BLOKOVI ========= */
+@media (max-width: 768px) {
+  .opste-info, .pretraga-section, .kalendar-rezervacija,
+  .lista-vikendica, .lista-zahteva, .lista-rezervacija {
+    padding: 14px; border-radius: 6px;
+  }
+}
+
+/* ========= FORME ========= */
+@media (max-width: 768px) {
+  .search-form { gap: 8px; }
+  .form-group { flex: 1 1 100%; }
+  .register-box { width: 100%; padding: 20px; }
+  .register-box input[type="text"],
+  .register-box input[type="password"],
+  .register-box input[type="email"],
+  .register-box select,
+  .register-box input[type="file"],
+  .register-box input[type="datetime-local"],
+  .register-box input[type="number"] { width: 100%; margin-right: 0; }
+}
+
+/* ========= TABELE (sve koje se završavaju na -table) ========= */
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-responsive table { min-width: 600px; }
+@media (max-width: 576px) {
+  [class$='-table'] th, [class$='-table'] td { padding: 8px; font-size: 13px; }
+}
+
+/* ========= KALENDAR ========= */
+@media (max-width: 768px) {
+  .kalendar-rezervacija { max-width: 100%; padding: 12px; }
+  .fc-toolbar-title { font-size: 1rem; }
+  .fc-event { font-size: 10px; }
+}
 
 
 
