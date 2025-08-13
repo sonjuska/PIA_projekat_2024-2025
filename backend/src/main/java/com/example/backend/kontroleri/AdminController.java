@@ -15,6 +15,7 @@ import com.example.backend.db.dao.AdminRepo;
 import com.example.backend.modeli.ZahtevZaRegistraciju;
 import com.example.backend.modeli.responses.KorisnikLoginResponse;
 import com.example.backend.modeli.responses.SimpleResponse;
+import com.example.backend.modeli.responses.VikendicaPoslednje3OceneManjeOd2;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -70,8 +71,16 @@ public class AdminController {
             korisnicko_ime, ime, prezime, pol, adresa, telefon, email, broj_kartice,
             uloga, aktivan, slikaUklonjena, slika
         );
+    }
 
- 
+    @GetMapping("/vikendice")
+    public List<VikendicaPoslednje3OceneManjeOd2> dohvatiVikendice() {
+        return new AdminRepo().dohvatiVikendice();
+    }
+
+    @GetMapping("/blokirajVikendicu")
+    public SimpleResponse blokirajVikendicu(@RequestParam int id){
+        return new AdminRepo().blokirajVikendicu(id);
     }
 
 

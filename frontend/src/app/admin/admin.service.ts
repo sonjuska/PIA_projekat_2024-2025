@@ -5,6 +5,7 @@ import { ZahtevZaRegistraciju } from '../models/zahtevZaRegistraciju';
 import { KorisnikLoginResponse } from '../responses/KorisnikLoginResponse';
 import { Vikendica } from '../models/vikendica';
 import { SimpleResponse } from '../responses/SimpleResponse';
+import { vikendicaPoslednje3OceneManjeOd2 } from '../models/vikendicaPoslednje3OceneManjeOd2';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,11 @@ export class AdminService {
   deaktivirajKorisnika(korisnicko_ime: string): Observable<SimpleResponse>{
     return this.http.get<SimpleResponse>(`${this.url}/deaktivirajKorisnika`, {params: {korisnicko_ime: korisnicko_ime}})
   }
-  dohvatiVikendice(): Observable<Vikendica[]>{
-    return this.http.get<Vikendica[]>(this.url+'/vikendice')
+  dohvatiVikendice(): Observable<vikendicaPoslednje3OceneManjeOd2[]>{
+    return this.http.get<vikendicaPoslednje3OceneManjeOd2[]>(this.url+'/vikendice')
   }
+  blokiraj(id: number) {
+    return this.http.get<SimpleResponse>(`${this.url}/blokirajVikendicu`, {params: {id: id}});
+  }
+  
 }

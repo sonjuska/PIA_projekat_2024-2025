@@ -17,7 +17,7 @@
         <td>{{ vik.mesto }}</td>
         <td>{{ vik.usluge.replaceAll(',', ', ')  }}</td>
         <td>{{ vik.telefon }}</td>
-        <td>{{ !vik.blokirana_do? 'NE': 'DA, do '+ vik.blokirana_do}}</td>
+        <td>{{ !vik.blokirana_do? 'NE': 'DA, do '+ (vik.blokirana_do | date:'dd.MM.yyyy. HH:mm')}}</td>
         <td>
             <button class="btn-odobri" (click)="uredi(vik.id)">✏️</button>
             <button class="btn-odbij" (click)="obrisi(vik.id)">🗑️</button>

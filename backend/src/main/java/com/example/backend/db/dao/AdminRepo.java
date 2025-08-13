@@ -18,6 +18,7 @@ import com.example.backend.db.DB;
 import com.example.backend.modeli.ZahtevZaRegistraciju;
 import com.example.backend.modeli.responses.KorisnikLoginResponse;
 import com.example.backend.modeli.responses.SimpleResponse;
+import com.example.backend.modeli.responses.VikendicaPoslednje3OceneManjeOd2;
 
 public class AdminRepo {
     
@@ -325,6 +326,77 @@ public class AdminRepo {
         } catch (SQLException e) {
             e.printStackTrace();
             return new SimpleResponse(false, "Greška pri ažuriranju korisnika.");
+        }
+    }
+
+    public List<VikendicaPoslednje3OceneManjeOd2> dohvatiVikendice(){
+
+        List<VikendicaPoslednje3OceneManjeOd2> vikendice = new ArrayList<>();
+        String sql = "SELECT * FROM vikendica";
+
+        try (Connection conn = DB.source().getConnection();
+             PreparedStatement stm = conn.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()){;
+
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    boolean posl3OceneManjeOd2 = false;
+                    String oceneSQL = """
+                            SELECT A.ocena
+                            FROM arhiva A JOIN rezervacija R ON (A.rezervacija_id = R.id) JOIN vikendica V ON (V.id = R.vikendica_id)
+                            WHERE V.id = ?
+                            ORDER BY A.datum DESC
+                            LIMIT 3
+                            """;
+                    PreparedStatement stm2 = conn.prepareStatement(oceneSQL);
+                    stm2.setInt(1, id);
+                    ResultSet rs2 = stm2.executeQuery();
+                    while(rs2.next()){
+                        if(rs2.getInt("ocena")>2){
+                            posl3OceneManjeOd2 = false;
+                            break;
+                        }else{
+                            posl3OceneManjeOd2 = true;
+                        }
+                    }
+                    VikendicaPoslednje3OceneManjeOd2 k = new VikendicaPoslednje3OceneManjeOd2(
+                        id,
+                        rs.getString("vlasnik"),
+                        rs.getString("naziv"),
+                        rs.getString("mesto"),
+                        rs.getString("usluge"),
+                        rs.getString("telefon"),
+                        rs.getDouble("lat"),
+                        rs.getDouble("lon"),
+                        rs.getString("blokirana_do"),
+                        posl3OceneManjeOd2
+                    );   
+
+                    vikendice.add(k);
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vikendice;
+    }
+
+    public SimpleResponse blokirajVikendicu(int id) {
+
+        try (Connection conn = DB.source().getConnection();
+            PreparedStatement stmt = conn.prepareStatement(
+                    "UPDATE vikendica SET blokirana_do = DATE_ADD(NOW(), INTERVAL 2 day) WHERE id = ?")) {
+
+            stmt.setInt(1, id);
+            int res = stmt.executeUpdate();
+            if (res>0) {
+                return new SimpleResponse(true, "Vikendica je blokirana narednih 48 sati.");
+            }
+            return new SimpleResponse(false, "Greška pri blokiranju vikendice.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new SimpleResponse(false, "Greška pri blokiranju vikendice.");
         }
     }
 
