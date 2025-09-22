@@ -36,7 +36,7 @@ export class RezervacijeComponent implements OnInit{
             this.rezervacije = rez;
         
             this.calendarOptions.events = this.rezervacije.map(r => ({
-              id: r.id.toString(),
+              id: String(r.id),
               title: r.naziv,
               start: r.datum_od + 'T' + r.vreme_od,
               end: r.datum_do + 'T' + r.vreme_do,
@@ -193,8 +193,8 @@ export class RezervacijeComponent implements OnInit{
   }
 
 klikNaDogadjaj(info: any) {
-  const id = info.event.extendedProps.id;
-  const status = info.event.extendedProps.status;
+  const id = Number(info.event.id ?? info.event.extendedProps['id']);
+  const status = info.event.extendedProps['status'];
 
   if(status !== 'na_cekanju') {
     Swal.fire({

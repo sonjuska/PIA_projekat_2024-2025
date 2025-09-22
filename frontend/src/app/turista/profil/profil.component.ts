@@ -42,6 +42,11 @@ export class ProfilComponent {
   slikaPreview: string | null = null;
   slikaUklonjena = false;
 
+  validnaKartica = false;
+  karticaTip: string | null = null;
+  karticaIkonica: string | null = null;
+  karticaPoruka: string | null = null;
+
   izaberiSliku(event: Event) {
     let input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
@@ -92,5 +97,51 @@ export class ProfilComponent {
         });
       }
     });
+  }
+
+  proveriKarticu() {
+    const broj = this.korisnik.broj_kartice;
+    this.karticaTip = null;
+    this.karticaIkonica = null;
+    this.validnaKartica = false;
+
+    if (/^(30[0-3]\d{12}|36\d{13}|38\d{13})$/.test(broj)) {
+      this.karticaTip = 'Diners';
+      this.karticaIkonica = '/diners.png';
+      this.validnaKartica = true;
+    } else if (/^5[1-5]\d{14}$/.test(broj)) {
+      this.karticaTip = 'MasterCard';
+      this.karticaIkonica = '/mastercard.png';
+      this.validnaKartica = true;
+    } else if (/^(4539|4556|4916|4532|4929|4485|4716)\d{12}$/.test(broj)) {
+      this.karticaTip = 'Visa';
+      this.karticaIkonica = '/visa.png';
+      this.validnaKartica = true;
+    }
+    if(!this.validnaKartica && this.korisnik.broj_kartice.length>16) this.karticaPoruka = 'Kartica nije validna.'
+    if(this.korisnik.broj_kartice.length<15 || this.validnaKartica) this.karticaPoruka = ''
+  }
+
+  dozvoliSamoBrojeve(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  dozvoliBrojeveIPlus(event: KeyboardEvent) {
+    const char = event.key;
+    if (char.length > 1) return;
+    if (/^\d$/.test(char)) return;
+    if (char === '+' && (!this.korisnik.telefon || this.korisnik.telefon.length === 0)) return;
+    event.preventDefault();
+  }
+
+  ocistiTelefon() {
+    if (!this.korisnik.telefon) return;
+    this.korisnik.telefon = this.korisnik.telefon.replace(/[^\d+]/g, '');
+    if (this.korisnik.telefon.indexOf('+') > 0) {
+      this.korisnik.telefon = this.korisnik.telefon.replace(/\+/g, '');
+    }
   }
 }

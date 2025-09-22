@@ -43,9 +43,13 @@ public class LoginRepo {
                         rs.getString("uloga"),
                         rs.getBoolean("aktivan")
                         );
+                }else{
+                    logujPrijavu(p.getKorisnicko_ime(), false);
                 }
+            }else{
+                logujPrijavu(p.getKorisnicko_ime(), false);
             }
-            logujPrijavu(p.getKorisnicko_ime(), false);
+
 
         } catch (SQLException e) {
             e.printStackTrace();

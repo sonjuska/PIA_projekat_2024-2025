@@ -199,17 +199,40 @@ input[type="text"] {
 .vikendica-table tr,
 .zahtevi-table tr,
 .rezervacije-table tr {
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 .vikendica-table tr:nth-child(even), .zahtevi-table tr:nth-child(even), .rezervacije-table tr:nth-child(even){
   background-color: #efebe9; 
 }
 
-.vikendica-table tr:hover, .zahtevi-table tr:hover, .rezervacije-table tr:hover {
+.vikendica-table tr:hover,
+.zahtevi-table tr:hover,
+.rezervacije-table tr:hover {
   background-color: #d7ccc8;
-  transform: scale(1.005);
-  transition: all 0.15s ease-in-out;
+  box-shadow: inset 0 0 0 9999px rgba(0,0,0,0); 
+  transition: background-color 0.15s ease-in-out;
+}
+
+/*Profil*/
+.kartica-wrapper {
+  display:inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.kartica-wrapper input {
+  height: 20px; 
+  line-height: 20px;
+  padding: 5px 10px;
+}
+
+.kartica-wrapper img {
+  object-fit: contain;
+  margin-top: 0;  
+  padding-bottom: 15px;
+  width: auto;
 }
 
 /*login forma*/

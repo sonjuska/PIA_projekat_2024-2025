@@ -130,7 +130,6 @@ export class RegistracijaComponent {
     }
   }
 
-
   nazad(){
     this.ruter.navigate(['/'], {
       queryParams: {},
