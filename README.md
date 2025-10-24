@@ -1,4 +1,4 @@
-# 🏡 Planinska Vikendica – PIA Projekat 2024/2025
+# 🏡 Planinska Vikendica – PIA Project 2024/2025
 
 Full-stack web application for **booking and managing mountain cottages** (*planinske vikendice*), built using **Angular**, **Spring Boot**, and **MySQL**.  
 Developed as part of the *Programiranje internet aplikacija (PIA)* course, academic year 2024–2025.
@@ -39,7 +39,7 @@ All data are persisted in MySQL, with structured access via DAO repositories and
 
 ---
 
-## ⚙️ Backend Setup
+## Backend Setup
 
 ## Database Connection (Spring Configuration)
 
