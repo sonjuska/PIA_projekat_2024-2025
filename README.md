@@ -71,6 +71,8 @@ Set username and password according to your MySQL Workbench username and passwor
 2. Import the SQL script planinska_vikendica_baza.sql in MySQL Workbench and execute it.
 3. Refresh the schemas.
 
+The script fills the database with testing data.
+
 ## Frontend Setup
 
 1. Navigate to frontend: cd frontend
